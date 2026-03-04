@@ -1,0 +1,1162 @@
+{
+  "runes": {
+    "None": [
+      {
+        "name": "Rune of Minor Vigor (+30 Health)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Vigor"
+      },
+      {
+        "name": "Rune of Major Vigor (+40 Health)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Vigor"
+      },
+      {
+        "name": "Rune of Superior Vigor (+50 Health)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Vigor"
+      },
+      {
+        "name": "Rune of Vitae (+10 Health)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Vitae"
+      },
+      {
+        "name": "Rune of Attunement (+2 Energy)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Attunement"
+      },
+      {
+        "name": "Rune of Clarity (-20% condition duration)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Clarity"
+      },
+      {
+        "name": "Rune of Recovery (-20% condition duration)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Recovery"
+      }
+    ],
+    "Warrior": [
+      {
+        "name": "Rune of Minor Strength (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Strength"
+      },
+      {
+        "name": "Rune of Major Strength (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Strength"
+      },
+      {
+        "name": "Rune of Superior Strength (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Strength"
+      },
+      {
+        "name": "Rune of Minor Axe Mastery (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Axe_Mastery"
+      },
+      {
+        "name": "Rune of Major Axe Mastery (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Axe_Mastery"
+      },
+      {
+        "name": "Rune of Superior Axe Mastery (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Axe_Mastery"
+      },
+      {
+        "name": "Rune of Minor Swordsmanship (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Swordsmanship"
+      },
+      {
+        "name": "Rune of Major Swordsmanship (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Swordsmanship"
+      },
+      {
+        "name": "Rune of Superior Swordsmanship (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Swordsmanship"
+      },
+      {
+        "name": "Rune of Minor Hammer Mastery (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Hammer_Mastery"
+      },
+      {
+        "name": "Rune of Major Hammer Mastery (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Hammer_Mastery"
+      },
+      {
+        "name": "Rune of Superior Hammer Mastery (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Hammer_Mastery"
+      },
+      {
+        "name": "Rune of Minor Tactics (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Tactics"
+      },
+      {
+        "name": "Rune of Major Tactics (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Tactics"
+      },
+      {
+        "name": "Rune of Superior Tactics (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Tactics"
+      },
+      {
+        "name": "Rune of Absorption (-3 physical damage taken)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Absorption"
+      }
+    ],
+    "Ranger": [
+      {
+        "name": "Rune of Minor Expertise (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Expertise"
+      },
+      {
+        "name": "Rune of Major Expertise (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Expertise"
+      },
+      {
+        "name": "Rune of Superior Expertise (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Expertise"
+      },
+      {
+        "name": "Rune of Minor Beast Mastery (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Beast_Mastery"
+      },
+      {
+        "name": "Rune of Major Beast Mastery (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Beast_Mastery"
+      },
+      {
+        "name": "Rune of Superior Beast Mastery (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Beast_Mastery"
+      },
+      {
+        "name": "Rune of Minor Marksmanship (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Marksmanship"
+      },
+      {
+        "name": "Rune of Major Marksmanship (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Marksmanship"
+      },
+      {
+        "name": "Rune of Superior Marksmanship (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Marksmanship"
+      },
+      {
+        "name": "Rune of Minor Wilderness Survival (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Wilderness_Survival"
+      },
+      {
+        "name": "Rune of Major Wilderness Survival (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Wilderness_Survival"
+      },
+      {
+        "name": "Rune of Superior Wilderness Survival (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Wilderness_Survival"
+      }
+    ],
+    "Monk": [
+      {
+        "name": "Rune of Minor Divine Favor (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Divine_Favor"
+      },
+      {
+        "name": "Rune of Major Divine Favor (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Divine_Favor"
+      },
+      {
+        "name": "Rune of Superior Divine Favor (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Divine_Favor"
+      },
+      {
+        "name": "Rune of Minor Healing Prayers (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Healing_Prayers"
+      },
+      {
+        "name": "Rune of Major Healing Prayers (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Healing_Prayers"
+      },
+      {
+        "name": "Rune of Superior Healing Prayers (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Healing_Prayers"
+      },
+      {
+        "name": "Rune of Minor Protection Prayers (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Protection_Prayers"
+      },
+      {
+        "name": "Rune of Major Protection Prayers (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Protection_Prayers"
+      },
+      {
+        "name": "Rune of Superior Protection Prayers (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Protection_Prayers"
+      },
+      {
+        "name": "Rune of Minor Smiting Prayers (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Smiting_Prayers"
+      },
+      {
+        "name": "Rune of Major Smiting Prayers (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Smiting_Prayers"
+      },
+      {
+        "name": "Rune of Superior Smiting Prayers (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Smiting_Prayers"
+      }
+    ],
+    "Necromancer": [
+      {
+        "name": "Rune of Minor Soul Reaping (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Soul_Reaping"
+      },
+      {
+        "name": "Rune of Major Soul Reaping (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Soul_Reaping"
+      },
+      {
+        "name": "Rune of Superior Soul Reaping (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Soul_Reaping"
+      },
+      {
+        "name": "Rune of Minor Blood Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Blood_Magic"
+      },
+      {
+        "name": "Rune of Major Blood Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Blood_Magic"
+      },
+      {
+        "name": "Rune of Superior Blood Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Blood_Magic"
+      },
+      {
+        "name": "Rune of Minor Curses (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Curses"
+      },
+      {
+        "name": "Rune of Major Curses (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Curses"
+      },
+      {
+        "name": "Rune of Superior Curses (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Curses"
+      },
+      {
+        "name": "Rune of Minor Death Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Death_Magic"
+      },
+      {
+        "name": "Rune of Major Death Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Death_Magic"
+      },
+      {
+        "name": "Rune of Superior Death Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Death_Magic"
+      }
+    ],
+    "Mesmer": [
+      {
+        "name": "Rune of Minor Fast Casting (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Fast_Casting"
+      },
+      {
+        "name": "Rune of Major Fast Casting (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Fast_Casting"
+      },
+      {
+        "name": "Rune of Superior Fast Casting (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Fast_Casting"
+      },
+      {
+        "name": "Rune of Minor Domination Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Domination_Magic"
+      },
+      {
+        "name": "Rune of Major Domination Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Domination_Magic"
+      },
+      {
+        "name": "Rune of Superior Domination Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Domination_Magic"
+      },
+      {
+        "name": "Rune of Minor Illusion Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Illusion_Magic"
+      },
+      {
+        "name": "Rune of Major Illusion Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Illusion_Magic"
+      },
+      {
+        "name": "Rune of Superior Illusion Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Illusion_Magic"
+      },
+      {
+        "name": "Rune of Minor Inspiration Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Inspiration_Magic"
+      },
+      {
+        "name": "Rune of Major Inspiration Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Inspiration_Magic"
+      },
+      {
+        "name": "Rune of Superior Inspiration Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Inspiration_Magic"
+      }
+    ],
+    "Elementalist": [
+      {
+        "name": "Rune of Minor Energy Storage (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Energy_Storage"
+      },
+      {
+        "name": "Rune of Major Energy Storage (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Energy_Storage"
+      },
+      {
+        "name": "Rune of Superior Energy Storage (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Energy_Storage"
+      },
+      {
+        "name": "Rune of Minor Air Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Air_Magic"
+      },
+      {
+        "name": "Rune of Major Air Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Air_Magic"
+      },
+      {
+        "name": "Rune of Superior Air Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Air_Magic"
+      },
+      {
+        "name": "Rune of Minor Earth Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Earth_Magic"
+      },
+      {
+        "name": "Rune of Major Earth Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Earth_Magic"
+      },
+      {
+        "name": "Rune of Superior Earth Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Earth_Magic"
+      },
+      {
+        "name": "Rune of Minor Fire Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Fire_Magic"
+      },
+      {
+        "name": "Rune of Major Fire Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Fire_Magic"
+      },
+      {
+        "name": "Rune of Superior Fire Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Fire_Magic"
+      },
+      {
+        "name": "Rune of Minor Water Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Water_Magic"
+      },
+      {
+        "name": "Rune of Major Water Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Water_Magic"
+      },
+      {
+        "name": "Rune of Superior Water Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Water_Magic"
+      }
+    ],
+    "Assassin": [
+      {
+        "name": "Rune of Minor Critical Strikes (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Critical_Strikes"
+      },
+      {
+        "name": "Rune of Major Critical Strikes (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Critical_Strikes"
+      },
+      {
+        "name": "Rune of Superior Critical Strikes (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Critical_Strikes"
+      },
+      {
+        "name": "Rune of Minor Dagger Mastery (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Dagger_Mastery"
+      },
+      {
+        "name": "Rune of Major Dagger Mastery (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Dagger_Mastery"
+      },
+      {
+        "name": "Rune of Superior Dagger Mastery (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Dagger_Mastery"
+      },
+      {
+        "name": "Rune of Minor Deadly Arts (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Deadly_Arts"
+      },
+      {
+        "name": "Rune of Major Deadly Arts (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Deadly_Arts"
+      },
+      {
+        "name": "Rune of Superior Deadly Arts (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Deadly_Arts"
+      },
+      {
+        "name": "Rune of Minor Shadow Arts (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Shadow_Arts"
+      },
+      {
+        "name": "Rune of Major Shadow Arts (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Shadow_Arts"
+      },
+      {
+        "name": "Rune of Superior Shadow Arts (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Shadow_Arts"
+      }
+    ],
+    "Ritualist": [
+      {
+        "name": "Rune of Minor Spawning Power (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Spawning_Power"
+      },
+      {
+        "name": "Rune of Major Spawning Power (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Spawning_Power"
+      },
+      {
+        "name": "Rune of Superior Spawning Power (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Spawning_Power"
+      },
+      {
+        "name": "Rune of Minor Channeling Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Channeling_Magic"
+      },
+      {
+        "name": "Rune of Major Channeling Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Channeling_Magic"
+      },
+      {
+        "name": "Rune of Superior Channeling Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Channeling_Magic"
+      },
+      {
+        "name": "Rune of Minor Communing (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Communing"
+      },
+      {
+        "name": "Rune of Major Communing (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Communing"
+      },
+      {
+        "name": "Rune of Superior Communing (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Communing"
+      },
+      {
+        "name": "Rune of Minor Restoration Magic (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Restoration_Magic"
+      },
+      {
+        "name": "Rune of Major Restoration Magic (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Restoration_Magic"
+      },
+      {
+        "name": "Rune of Superior Restoration Magic (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Restoration_Magic"
+      }
+    ],
+    "Paragon": [
+      {
+        "name": "Rune of Minor Leadership (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Leadership"
+      },
+      {
+        "name": "Rune of Major Leadership (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Leadership"
+      },
+      {
+        "name": "Rune of Superior Leadership (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Leadership"
+      },
+      {
+        "name": "Rune of Minor Command (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Command"
+      },
+      {
+        "name": "Rune of Major Command (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Command"
+      },
+      {
+        "name": "Rune of Superior Command (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Command"
+      },
+      {
+        "name": "Rune of Minor Motivation (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Motivation"
+      },
+      {
+        "name": "Rune of Major Motivation (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Motivation"
+      },
+      {
+        "name": "Rune of Superior Motivation (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Motivation"
+      },
+      {
+        "name": "Rune of Minor Spear Mastery (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Spear_Mastery"
+      },
+      {
+        "name": "Rune of Major Spear Mastery (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Spear_Mastery"
+      },
+      {
+        "name": "Rune of Superior Spear Mastery (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Spear_Mastery"
+      }
+    ],
+    "Dervish": [
+      {
+        "name": "Rune of Minor Mysticism (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Mysticism"
+      },
+      {
+        "name": "Rune of Major Mysticism (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Mysticism"
+      },
+      {
+        "name": "Rune of Superior Mysticism (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Mysticism"
+      },
+      {
+        "name": "Rune of Minor Earth Prayers (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Earth_Prayers"
+      },
+      {
+        "name": "Rune of Major Earth Prayers (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Earth_Prayers"
+      },
+      {
+        "name": "Rune of Superior Earth Prayers (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Earth_Prayers"
+      },
+      {
+        "name": "Rune of Minor Scythe Mastery (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Scythe_Mastery"
+      },
+      {
+        "name": "Rune of Major Scythe Mastery (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Scythe_Mastery"
+      },
+      {
+        "name": "Rune of Superior Scythe Mastery (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Scythe_Mastery"
+      },
+      {
+        "name": "Rune of Minor Wind Prayers (Attr +1)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Minor_Wind_Prayers"
+      },
+      {
+        "name": "Rune of Major Wind Prayers (Attr +2)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Major_Wind_Prayers"
+      },
+      {
+        "name": "Rune of Superior Wind Prayers (Attr +3)",
+        "url": "https://wiki.guildwars.com/wiki/Rune_of_Superior_Wind_Prayers"
+      }
+    ]
+  },
+  "insignias": {
+    "None": [
+      {
+        "name": "Blessed Insignia (+10 armor while enchanted)",
+        "url": "https://wiki.guildwars.com/wiki/Blessed_Insignia"
+      },
+      {
+        "name": "Radiant Insignia (+15/10/5 Energy)",
+        "url": "https://wiki.guildwars.com/wiki/Radiant_Insignia"
+      },
+      {
+        "name": "Survivor Insignia (+15/10/5 Health)",
+        "url": "https://wiki.guildwars.com/wiki/Survivor_Insignia"
+      },
+      {
+        "name": "Stalwart Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Stalwart_Insignia"
+      },
+      {
+        "name": "Brawler's Insignia (+10 armor while attacking)",
+        "url": "https://wiki.guildwars.com/wiki/Brawler's_Insignia"
+      },
+      {
+        "name": "Herald's Insignia (+10 armor while holding an item)",
+        "url": "https://wiki.guildwars.com/wiki/Herald's_Insignia"
+      },
+      {
+        "name": "Sentry's Insignia (+10 armor in stance)",
+        "url": "https://wiki.guildwars.com/wiki/Sentry's_Insignia"
+      }
+    ],
+    "Warrior": [
+      {
+        "name": "Knight's Insignia (-3 phys dmg taken)",
+        "url": "https://wiki.guildwars.com/wiki/Knight's_Insignia"
+      },
+      {
+        "name": "Lieutenant's Insignia (-2 dmg taken while attacking)",
+        "url": "https://wiki.guildwars.com/wiki/Lieutenant's_Insignia"
+      },
+      {
+        "name": "Sentinel's Insignia (+20 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Sentinel's_Insignia"
+      },
+      {
+        "name": "Dreadnought Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Dreadnought_Insignia"
+      },
+      {
+        "name": "Stonefist Insignia (+1 sec knockdown)",
+        "url": "https://wiki.guildwars.com/wiki/Stonefist_Insignia"
+      }
+    ],
+    "Ranger": [
+      {
+        "name": "Beastmaster's Insignia (+10 armor if pet alive)",
+        "url": "https://wiki.guildwars.com/wiki/Beastmaster's_Insignia"
+      },
+      {
+        "name": "Scout's Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Scout's_Insignia"
+      },
+      {
+        "name": "Trapper's Insignia (+10 armor in stance)",
+        "url": "https://wiki.guildwars.com/wiki/Trapper's_Insignia"
+      },
+      {
+        "name": "Earthbound Insignia (+10 armor vs earth)",
+        "url": "https://wiki.guildwars.com/wiki/Earthbound_Insignia"
+      },
+      {
+        "name": "Pyrebound Insignia (+10 armor vs fire)",
+        "url": "https://wiki.guildwars.com/wiki/Pyrebound_Insignia"
+      },
+      {
+        "name": "Frostbound Insignia (+10 armor vs cold)",
+        "url": "https://wiki.guildwars.com/wiki/Frostbound_Insignia"
+      },
+      {
+        "name": "Stormbound Insignia (+10 armor vs lightning)",
+        "url": "https://wiki.guildwars.com/wiki/Stormbound_Insignia"
+      }
+    ],
+    "Monk": [
+      {
+        "name": "Acolyte's Insignia (+10 max Energy)",
+        "url": "https://wiki.guildwars.com/wiki/Acolyte's_Insignia"
+      },
+      {
+        "name": "Anchorite's Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Anchorite's_Insignia"
+      },
+      {
+        "name": "Disciple's Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Disciple's_Insignia"
+      }
+    ],
+    "Necromancer": [
+      {
+        "name": "Bloodstained Insignia (-25% corpse spell cast time)",
+        "url": "https://wiki.guildwars.com/wiki/Bloodstained_Insignia"
+      },
+      {
+        "name": "Bonelace Insignia (+15 armor vs piercing)",
+        "url": "https://wiki.guildwars.com/wiki/Bonelace_Insignia"
+      },
+      {
+        "name": "Ghostly Insignia (-3 phys dmg taken)",
+        "url": "https://wiki.guildwars.com/wiki/Ghostly_Insignia"
+      },
+      {
+        "name": "Undead Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Undead_Insignia"
+      },
+      {
+        "name": "Blighter's Insignia (+20 armor while hexed)",
+        "url": "https://wiki.guildwars.com/wiki/Blighter's_Insignia"
+      },
+      {
+        "name": "Minion Master's Insignia (+5 armor per 1-5 minions)",
+        "url": "https://wiki.guildwars.com/wiki/Minion_Master's_Insignia"
+      },
+      {
+        "name": "Undertaker's Insignia (+5 armor while health < 80%)",
+        "url": "https://wiki.guildwars.com/wiki/Undertaker's_Insignia"
+      }
+    ],
+    "Mesmer": [
+      {
+        "name": "Artificer's Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Artificer's_Insignia"
+      },
+      {
+        "name": "Illusionist's Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Illusionist's_Insignia"
+      },
+      {
+        "name": "Prodigy's Insignia (-3 phys dmg taken)",
+        "url": "https://wiki.guildwars.com/wiki/Prodigy's_Insignia"
+      },
+      {
+        "name": "Virtuoso's Insignia (+10 max Energy)",
+        "url": "https://wiki.guildwars.com/wiki/Virtuoso's_Insignia"
+      }
+    ],
+    "Elementalist": [
+      {
+        "name": "Aeromancer's Insignia (+10 armor vs earth/cold)",
+        "url": "https://wiki.guildwars.com/wiki/Aeromancer's_Insignia"
+      },
+      {
+        "name": "Geomancer's Insignia (+10 armor vs lightning/fire)",
+        "url": "https://wiki.guildwars.com/wiki/Geomancer's_Insignia"
+      },
+      {
+        "name": "Hydromancer's Insignia (+10 armor vs fire/lightning)",
+        "url": "https://wiki.guildwars.com/wiki/Hydromancer's_Insignia"
+      },
+      {
+        "name": "Pyromancer's Insignia (+10 armor vs cold/earth)",
+        "url": "https://wiki.guildwars.com/wiki/Pyromancer's_Insignia"
+      },
+      {
+        "name": "Prismatic Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Prismatic_Insignia"
+      }
+    ],
+    "Assassin": [
+      {
+        "name": "Infiltrator's Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Infiltrator's_Insignia"
+      },
+      {
+        "name": "Saboteur's Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Saboteur's_Insignia"
+      },
+      {
+        "name": "Vanguard's Insignia (-3 phys dmg taken)",
+        "url": "https://wiki.guildwars.com/wiki/Vanguard's_Insignia"
+      },
+      {
+        "name": "Nightstalker's Insignia (+15 armor while attacking)",
+        "url": "https://wiki.guildwars.com/wiki/Nightstalker's_Insignia"
+      }
+    ],
+    "Ritualist": [
+      {
+        "name": "Ghost Forge Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Ghost_Forge_Insignia"
+      },
+      {
+        "name": "Shaman's Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Shaman's_Insignia"
+      },
+      {
+        "name": "Spiritwalker's Insignia (-3 phys dmg taken)",
+        "url": "https://wiki.guildwars.com/wiki/Spiritwalker's_Insignia"
+      },
+      {
+        "name": "Mystic's Insignia (+10 max Energy)",
+        "url": "https://wiki.guildwars.com/wiki/Mystic's_Insignia"
+      }
+    ],
+    "Paragon": [
+      {
+        "name": "Centurion's Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Centurion's_Insignia"
+      },
+      {
+        "name": "Legionnaire's Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Legionnaire's_Insignia"
+      }
+    ],
+    "Dervish": [
+      {
+        "name": "Forsaken Insignia (+10 armor vs physical)",
+        "url": "https://wiki.guildwars.com/wiki/Forsaken_Insignia"
+      },
+      {
+        "name": "Primeval Insignia (+10 armor vs elemental)",
+        "url": "https://wiki.guildwars.com/wiki/Primeval_Insignia"
+      },
+      {
+        "name": "Wanderer's Insignia (-3 phys dmg taken)",
+        "url": "https://wiki.guildwars.com/wiki/Wanderer's_Insignia"
+      },
+      {
+        "name": "Windwalker Insignia (+15 armor while moving)",
+        "url": "https://wiki.guildwars.com/wiki/Windwalker_Insignia"
+      }
+    ]
+  },
+  "weapons": {
+    "categories": {
+      "Martial_1H": [
+        "Axe",
+        "Sword",
+        "Spear",
+        "Daggers",
+        "Longbow",
+        "Shortbow",
+        "Flatbow",
+        "Hornbow",
+        "Recurve Bow"
+      ],
+      "Martial_2H": [
+        "Hammer",
+        "Scythe"
+      ],
+      "Staff": [
+        "Staff"
+      ],
+      "Wand": [
+        "Wand"
+      ],
+      "Focus": [
+        "Focus"
+      ],
+      "Shield": [
+        "Shield"
+      ]
+    },
+    "attributes": {
+      "Axe": [
+        "Axe Mastery"
+      ],
+      "Sword": [
+        "Swordsmanship"
+      ],
+      "Spear": [
+        "Spear Mastery"
+      ],
+      "Daggers": [
+        "Dagger Mastery"
+      ],
+      "Longbow": [
+        "Marksmanship"
+      ],
+      "Shortbow": [
+        "Marksmanship"
+      ],
+      "Flatbow": [
+        "Marksmanship"
+      ],
+      "Hornbow": [
+        "Marksmanship"
+      ],
+      "Recurve Bow": [
+        "Marksmanship"
+      ],
+      "Hammer": [
+        "Hammer Mastery"
+      ],
+      "Scythe": [
+        "Scythe Mastery"
+      ],
+      "Staff": [
+        "Divine Favor",
+        "Healing Prayers",
+        "Protection Prayers",
+        "Smiting Prayers",
+        "Soul Reaping",
+        "Blood Magic",
+        "Curses",
+        "Death Magic",
+        "Fast Casting",
+        "Domination Magic",
+        "Illusion Magic",
+        "Inspiration Magic",
+        "Energy Storage",
+        "Air Magic",
+        "Earth Magic",
+        "Fire Magic",
+        "Water Magic",
+        "Spawning Power",
+        "Channeling Magic",
+        "Communing",
+        "Restoration Magic"
+      ],
+      "Wand": [
+        "Divine Favor",
+        "Healing Prayers",
+        "Protection Prayers",
+        "Smiting Prayers",
+        "Soul Reaping",
+        "Blood Magic",
+        "Curses",
+        "Death Magic",
+        "Fast Casting",
+        "Domination Magic",
+        "Illusion Magic",
+        "Inspiration Magic",
+        "Energy Storage",
+        "Air Magic",
+        "Earth Magic",
+        "Fire Magic",
+        "Water Magic",
+        "Spawning Power",
+        "Channeling Magic",
+        "Communing",
+        "Restoration Magic"
+      ],
+      "Focus": [
+        "Divine Favor",
+        "Healing Prayers",
+        "Protection Prayers",
+        "Smiting Prayers",
+        "Soul Reaping",
+        "Blood Magic",
+        "Curses",
+        "Death Magic",
+        "Fast Casting",
+        "Domination Magic",
+        "Illusion Magic",
+        "Inspiration Magic",
+        "Energy Storage",
+        "Air Magic",
+        "Earth Magic",
+        "Fire Magic",
+        "Water Magic",
+        "Spawning Power",
+        "Channeling Magic",
+        "Communing",
+        "Restoration Magic"
+      ],
+      "Shield": [
+        "Strength",
+        "Tactics",
+        "Command",
+        "Motivation",
+        "Leadership"
+      ]
+    },
+    "upgrades": {
+      "Martial_1H": {
+        "prefixes": [
+          "Vampiric (Lifesteal 3, Regen -1)",
+          "Zealous (Energy 1, Regen -1)",
+          "Sundering (Armor pen 20%)",
+          "Shocking (Lightning dmg)",
+          "Fiery (Fire dmg)",
+          "Icy (Cold dmg)",
+          "Crippling (Cripple +33%)",
+          "Poisonous (Poison +33%)",
+          "Furious (Double adrenaline 10%)",
+          "Ebon (Earth dmg)",
+          "Silencing (Daze +33%)",
+          "Barbed (Bleeding +33%)",
+          "Cruel (Deep Wound +33%)",
+          "Heavy (Weakness +33%)"
+        ],
+        "suffixes": [
+          "of Fortitude (+30 Health)",
+          "of Defense (+5 Armor)",
+          "of Warding (+16 Armor vs Elemental)",
+          "of Shelter (+16 Armor vs Physical)",
+          "of Enchanting (Enchants +20%)",
+          "of the Warrior",
+          "of the Ranger",
+          "of the Monk",
+          "of the Necromancer",
+          "of the Mesmer",
+          "of the Elementalist",
+          "of the Assassin",
+          "of the Ritualist",
+          "of the Paragon",
+          "of the Dervish"
+        ],
+        "inscriptions": [
+          "Strength and Honor (+15% dmg if Health > 50%)",
+          "Guided by Fate (+15% dmg if Enchanted)",
+          "Brawn over Brains (+15% dmg, -5 Energy)",
+          "Too Much Information (+15% dmg vs Hexed)",
+          "Vengeance is Mine (+20% dmg if Health < 50%)",
+          "I Have the Power! (+5 Energy)"
+        ]
+      },
+      "Martial_2H": {
+        "prefixes": [
+          "Vampiric (Lifesteal 5, Regen -1)",
+          "Zealous (Energy 1, Regen -1)",
+          "Sundering (Armor pen 20%)",
+          "Shocking (Lightning dmg)",
+          "Fiery (Fire dmg)",
+          "Icy (Cold dmg)",
+          "Crippling (Cripple +33%)",
+          "Poisonous (Poison +33%)",
+          "Furious (Double adrenaline 10%)",
+          "Ebon (Earth dmg)",
+          "Silencing (Daze +33%)",
+          "Barbed (Bleeding +33%)",
+          "Cruel (Deep Wound +33%)",
+          "Heavy (Weakness +33%)"
+        ],
+        "suffixes": [
+          "of Fortitude (+30 Health)",
+          "of Defense (+5 Armor)",
+          "of Warding (+16 Armor vs Elemental)",
+          "of Shelter (+16 Armor vs Physical)",
+          "of Enchanting (Enchants +20%)",
+          "of the Warrior",
+          "of the Ranger",
+          "of the Monk",
+          "of the Necromancer",
+          "of the Mesmer",
+          "of the Elementalist",
+          "of the Assassin",
+          "of the Ritualist",
+          "of the Paragon",
+          "of the Dervish"
+        ],
+        "inscriptions": [
+          "Strength and Honor (+15% dmg if Health > 50%)",
+          "Guided by Fate (+15% dmg if Enchanted)",
+          "Brawn over Brains (+15% dmg, -5 Energy)",
+          "Too Much Information (+15% dmg vs Hexed)",
+          "Vengeance is Mine (+20% dmg if Health < 50%)",
+          "I Have the Power! (+5 Energy)"
+        ]
+      },
+      "Staff": {
+        "prefixes": [
+          "Hale (+30 Health)",
+          "Insightful (+5 Energy)",
+          "Adept (+20% Cast speed)",
+          "Swift (+10% Cast speed)",
+          "Defensive (+5 Armor)"
+        ],
+        "suffixes": [
+          "of Fortitude (+30 Health)",
+          "of Defense (+5 Armor)",
+          "of Enchanting (Enchants +20%)",
+          "of Memory (20% recharge)",
+          "of Quickening (20% cast time)",
+          "of Mastery (20% chance +1 attr)",
+          "of the Warrior",
+          "of the Ranger",
+          "of the Monk",
+          "of the Necromancer",
+          "of the Mesmer",
+          "of the Elementalist",
+          "of the Assassin",
+          "of the Ritualist",
+          "of the Paragon",
+          "of the Dervish"
+        ],
+        "inscriptions": [
+          "Forget Me Not (20% energy refund)",
+          "Seize the Day (+15 Energy, -1 Regen)",
+          "Have Faith (+5 Energy while Enchanted)",
+          "Serenity Now (+5 Energy while Hexed)",
+          "Aptitude not Attitude (20% cast time)",
+          "Hale and Hearty (+30 Health)"
+        ]
+      },
+      "Wand": {
+        "prefixes": [
+          "Hale (+30 Health)",
+          "Insightful (+5 Energy)",
+          "Adept (+20% Cast speed)",
+          "Swift (+10% Cast speed)",
+          "Defensive (+5 Armor)"
+        ],
+        "suffixes": [
+          "of Fortitude (+30 Health)",
+          "of Defense (+5 Armor)",
+          "of Enchanting (Enchants +20%)",
+          "of Memory (20% recharge)",
+          "of Quickening (20% cast time)",
+          "of Mastery (20% chance +1 attr)",
+          "of the Warrior",
+          "of the Ranger",
+          "of the Monk",
+          "of the Necromancer",
+          "of the Mesmer",
+          "of the Elementalist",
+          "of the Assassin",
+          "of the Ritualist",
+          "of the Paragon",
+          "of the Dervish"
+        ],
+        "inscriptions": [
+          "Forget Me Not (20% energy refund)",
+          "Seize the Day (+15 Energy, -1 Regen)",
+          "Have Faith (+5 Energy while Enchanted)",
+          "Serenity Now (+5 Energy while Hexed)",
+          "Aptitude not Attitude (20% cast time)",
+          "Hale and Hearty (+30 Health)"
+        ]
+      },
+      "Focus": {
+        "prefixes": [
+          "Hale (+30 Health)",
+          "Insightful (+5 Energy)",
+          "Adept (+20% Cast speed)",
+          "Swift (+10% Cast speed)",
+          "Defensive (+5 Armor)"
+        ],
+        "suffixes": [
+          "of Devotion (+45 Health)",
+          "of Fortitude (+30 Health)",
+          "of Aptitude (20% cast time)",
+          "of Enchanting (Enchants +20%)",
+          "of Memory (20% recharge)",
+          "of the Warrior",
+          "of the Ranger",
+          "of the Monk",
+          "of the Necromancer",
+          "of the Mesmer",
+          "of the Elementalist",
+          "of the Assassin",
+          "of the Ritualist",
+          "of the Paragon",
+          "of the Dervish"
+        ],
+        "inscriptions": [
+          "Live for Today (+15 Energy, -1 Regen)",
+          "Luck of the Draw (-20% conditions)",
+          "Survival of the Fittest (+5 Armor vs Physical)",
+          "Might Makes Right (+5 Armor attacking)",
+          "Knowing is Half the Battle (+5 Armor casting)",
+          "Down But Not Out (+10 Armor if Health < 50%)",
+          "Hail to the King (+5 Armor if Health > 50%)",
+          "Be Just and Fear Not (+10 Armor Hexed)"
+        ]
+      },
+      "Shield": {
+        "prefixes": [],
+        "suffixes": [
+          "of Devotion (+45 Health)",
+          "of Fortitude (+30 Health)",
+          "of Valor (+50 Health, -1 Regen)",
+          "of Warding (+16 Armor vs Elemental)",
+          "of Shelter (+16 Armor vs Physical)",
+          "of the Warrior",
+          "of the Ranger",
+          "of the Monk",
+          "of the Necromancer",
+          "of the Mesmer",
+          "of the Elementalist",
+          "of the Assassin",
+          "of the Ritualist",
+          "of the Paragon",
+          "of the Dervish"
+        ],
+        "inscriptions": [
+          "Luck of the Draw (-20% conditions)",
+          "Survival of the Fittest (+5 Armor vs Physical)",
+          "Might Makes Right (+5 Armor attacking)",
+          "Knowing is Half the Battle (+5 Armor casting)",
+          "Down But Not Out (+10 Armor if Health < 50%)",
+          "Hail to the King (+5 Armor if Health > 50%)",
+          "Be Just and Fear Not (+10 Armor Hexed)",
+          "Cast Out the Unclean (-20% Disease)",
+          "Pure of Heart (-20% Poison)",
+          "Run for Your Life! (+10 Armor running)"
+        ]
+      }
+    }
+  }
+}

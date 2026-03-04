@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GW1 Reddit Build Formatter</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<div style="margin-bottom: 20px;">
+        <a href="../index.html" style="text-decoration: none; color: #0056b3; font-weight: bold;">&larr; Back to Guild Wars Tools</a>
+    </div>
+	
+    <h1>GW1 Reddit Build Formatter</h1>
+
+	<section id="input-section">
+        <label for="template-code">Skill Template Code:</label>
+        <input type="text" id="template-code" placeholder="OAhjQkGZIP3hhWVVaO5EeAAAA">
+        <button id="decode-btn">Decode & Load Profession</button>
+        <br><br>
+		<!--<label for="equipment-code">Equipment Template Code (Optional):</label>
+		<input type="text" id="equipment-code" placeholder="Enter Equipment Code...">
+		<br><br>-->
+        <label for="build-name">Build Name:</label>
+        <input type="text" id="build-name" placeholder="e.g., My Awesome Monk">
+        <br><br>
+        <label for="build-desc">Description (Optional):</label><br>
+        <textarea id="build-desc" rows="3" cols="50" placeholder="Enter a brief description of the build..."></textarea>
+    </section>
+
+    <hr>
+
+    <section id="armor-section">
+        <h3>Armor Sets</h3>
+        <div id="armor-forms">
+            </div>
+    </section>
+
+    <section id="weapon-section">
+        <h3>Weapon Sets (Up to 4)</h3>
+        <div id="weapon-forms">
+            </div>
+    </section>
+
+    <hr>
+	
+	<div style="margin-top: 20px;">
+		<strong>Notes (Optional):</strong><br>
+		<textarea id="build-notes" rows="4" style="width: 100%; max-width: 600px;"></textarea>
+	</div>
+
+    <section id="output-section">
+        <button id="generate-btn">Generate Reddit Markdown</button>
+        <br><br>
+        <textarea id="output" rows="15" cols="80" placeholder="Your Reddit code will appear here..."></textarea>
+    </section>
+
+    <script src="decoder.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
