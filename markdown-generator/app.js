@@ -2,22 +2,14 @@ let skillsData = {};
 let equipmentData = {};
 let currentProfession = "None";
 let currentSecondary = "None";
-let decodedSkills = [];
 let decodedAttributes = [];
 let originalCode = "";
 
 const TWO_HANDED_WEAPONS = ["Hammer", "Longbow", "Shortbow", "Flatbow", "Hornbow", "Recurve Bow", "Scythe", "Daggers", "Staff"];
 const ANNIVERSARY_WEAPONS = {
-    "Spear": ['Anniversary Spear "Arbalest"'],
-    "Sword": ['Anniversary Sword "Prominence"'],
-    "Hammer": ['Anniversary Hammer "Verdict"'],
-    "Scythe": ['Anniversary Scythe "Sufferer"'],
-    "Shield": ['Anniversary Shield "Curtain"'],
-    "Axe": ['Anniversary Axe "Engrave"'],
-    "Shortbow": ['Anniversary Shortbow "Whisper"'],
-    "Flatbow": ['Anniversary Flatbow "Oracle"'],
-    "Staff": ['Anniversary Staff "Unveil"'],
-    "Daggers": ['Anniversary Daggers "Vengeance"']
+    "Spear": ['Anniversary Spear "Arbalest"'], "Sword": ['Anniversary Sword "Prominence"'], "Hammer": ['Anniversary Hammer "Verdict"'],
+    "Scythe": ['Anniversary Scythe "Sufferer"'], "Shield": ['Anniversary Shield "Curtain"'], "Axe": ['Anniversary Axe "Engrave"'],
+    "Shortbow": ['Anniversary Shortbow "Whisper"'], "Flatbow": ['Anniversary Flatbow "Oracle"'], "Staff": ['Anniversary Staff "Unveil"'], "Daggers": ['Anniversary Daggers "Vengeance"']
 };
 
 const PROF_ATTRIBUTES = {
@@ -34,15 +26,18 @@ const PROF_ATTRIBUTES = {
 };
 
 const PRIMARY_ATTRIBUTES = {
-    "Warrior": "Strength", "Ranger": "Expertise", "Monk": "Divine Favor",
-    "Necromancer": "Soul Reaping", "Mesmer": "Fast Casting", "Elementalist": "Energy Storage",
-    "Assassin": "Critical Strikes", "Ritualist": "Spawning Power", "Paragon": "Leadership",
-    "Dervish": "Mysticism"
+    "Warrior": "Strength", "Ranger": "Expertise", "Monk": "Divine Favor", "Necromancer": "Soul Reaping", 
+    "Mesmer": "Fast Casting", "Elementalist": "Energy Storage", "Assassin": "Critical Strikes", 
+    "Ritualist": "Spawning Power", "Paragon": "Leadership", "Dervish": "Mysticism"
 };
+
+const ALL_PROFESSIONS = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
+
+// CORRECTED GW1 Attribute Cost Curve
+const ATTR_COST = [0, 1, 3, 6, 10, 15, 21, 28, 37, 48, 61, 77, 97]; 
 
 let generateBtn = document.getElementById('generate-btn');
 let copyBtn = document.createElement('button');
-copyBtn.id = 'copy-btn';
 copyBtn.textContent = 'Copy to Clipboard';
 copyBtn.style.backgroundColor = '#ff9800'; 
 copyBtn.style.color = '#fff';
@@ -55,16 +50,12 @@ copyBtn.style.marginLeft = '10px';
 copyBtn.style.display = 'none'; 
 
 generateBtn.parentNode.insertBefore(copyBtn, generateBtn.nextSibling);
-
 copyBtn.addEventListener('click', () => {
     const outputField = document.getElementById('output');
     outputField.select();
     navigator.clipboard.writeText(outputField.value).then(() => {
-        const originalText = copyBtn.textContent;
         copyBtn.textContent = 'Copied!';
-        setTimeout(() => {
-            copyBtn.textContent = originalText;
-        }, 2000);
+        setTimeout(() => copyBtn.textContent = 'Copy to Clipboard', 2000);
     });
 });
 
@@ -74,13 +65,237 @@ Promise.all([
 ]).then(([skills, eq]) => {
     skillsData = skills;
     equipmentData = eq;
+    
+    const allSkillNames = Object.values(skillsData).filter(s => s && s !== "No Skill").sort();
+    const uniqueSkills = [...new Set(allSkillNames)];
+    const dataList = document.getElementById('all-skills-datalist');
+    if (dataList) {
+        dataList.innerHTML = uniqueSkills.map(s => `<option value="${s.replace(/"/g, '&quot;')}">`).join('');
+    }
+
+    buildManualCoreForms();
+    buildArmorForms();
+    buildWeaponForms();
 }).catch(err => console.error("Error loading databases:", err));
+
+function updateAttributeTally(changedInput = null) {
+    let inputs = Array.from(document.querySelectorAll('.manual-attr-input'));
+    let total = 0;
+    
+    inputs.forEach(inp => {
+        let val = parseInt(inp.value) || 0;
+        if (val < 0) { val = 0; inp.value = 0; }
+        if (val > 12) { val = 12; inp.value = 12; }
+        total += ATTR_COST[val];
+    });
+
+    if (total > 200 && changedInput) {
+        let val = parseInt(changedInput.value) || 0;
+        while (total > 200 && val > 0) {
+            total -= ATTR_COST[val];
+            val--;
+            total += ATTR_COST[val];
+        }
+        changedInput.value = val;
+    }
+
+    const tallyDisplay = document.getElementById('attr-points-tally');
+    if (tallyDisplay) {
+        tallyDisplay.textContent = `(${total} / 200 Points)`;
+        tallyDisplay.style.color = total === 200 ? '#ff9800' : (total > 200 ? 'red' : '#555');
+    }
+}
+
+function autoGenerateTemplateCode() {
+    const prim = document.getElementById('primary-prof-select').value;
+    const sec = document.getElementById('secondary-prof-select').value;
+    
+    let attrs = [];
+    document.querySelectorAll('.manual-attr-input').forEach(inp => {
+        let pts = parseInt(inp.value) || 0;
+        if(pts > 0) attrs.push({ name: inp.dataset.attr, points: pts });
+    });
+
+    let skills = [];
+    document.querySelectorAll('.manual-skill-input').forEach(inp => {
+        skills.push(inp.value.trim() || "Optional");
+    });
+
+    try {
+        const encoder = new GW1TemplateEncoder(prim, sec, attrs, skills, skillsData);
+        const code = encoder.encode();
+        document.getElementById('template-code').value = code;
+        originalCode = code;
+    } catch(e) {
+        console.warn("Could not auto-generate code", e);
+    }
+}
+
+function buildManualCoreForms() {
+    const primSel = document.getElementById('primary-prof-select');
+    const secSel = document.getElementById('secondary-prof-select');
+    
+    if (primSel && secSel) {
+        primSel.innerHTML = ALL_PROFESSIONS.map(p => `<option value="${p}">${p}</option>`).join('');
+        secSel.innerHTML = ALL_PROFESSIONS.map(p => `<option value="${p}">${p}</option>`).join('');
+        
+        primSel.addEventListener('change', (e) => {
+            let prim = e.target.value;
+            let sec = secSel.value;
+            if (sec !== "None" && sec === prim) {
+                sec = "None";
+                secSel.value = "None";
+            }
+            updateProfessionState(prim, sec);
+        });
+        
+        secSel.addEventListener('change', (e) => {
+            let sec = e.target.value;
+            let prim = primSel.value;
+            if (sec !== "None" && sec === prim) {
+                alert("Secondary profession cannot be the same as the Primary profession.");
+                sec = "None";
+                secSel.value = "None";
+            }
+            updateProfessionState(prim, sec);
+        });
+    }
+    
+    const skillsContainer = document.getElementById('skills-inputs-container');
+    if (skillsContainer) {
+        skillsContainer.innerHTML = '';
+        for (let i = 0; i < 8; i++) {
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.setAttribute('list', 'all-skills-datalist'); 
+            inp.className = 'manual-skill-input';
+            inp.placeholder = 'Optional';
+            inp.style.width = '100%';
+            inp.style.padding = '5px';
+            inp.addEventListener('input', autoGenerateTemplateCode); 
+            skillsContainer.appendChild(inp);
+        }
+    }
+}
+
+function updateProfessionState(primProf, secProf, decodedAttrs = []) {
+    currentProfession = primProf;
+    currentSecondary = secProf;
+
+    const attrContainer = document.getElementById('attributes-inputs-container');
+    if (attrContainer) {
+        attrContainer.innerHTML = '';
+        let availableAttrs = [];
+        if (PROF_ATTRIBUTES[primProf]) availableAttrs.push(...PROF_ATTRIBUTES[primProf]);
+        if (secProf !== "None" && PROF_ATTRIBUTES[secProf]) availableAttrs.push(...PROF_ATTRIBUTES[secProf]);
+
+        availableAttrs.forEach(attr => {
+            let defaultVal = 0;
+            let decoded = decodedAttrs.find(a => a.attribute === attr);
+            if (decoded) defaultVal = decoded.points;
+
+            attrContainer.innerHTML += `
+                <div class="attr-box">
+                    <label>${attr}</label>
+                    <input type="number" min="0" max="12" value="${defaultVal}" class="manual-attr-input" data-attr="${attr}">
+                </div>
+            `;
+        });
+
+        document.querySelectorAll('.manual-attr-input').forEach(inp => {
+            inp.addEventListener('input', (e) => {
+                updateAttributeTally(e.target);
+                autoGenerateTemplateCode();
+            });
+        });
+        updateAttributeTally();
+    }
+
+    const prevArmorState = [];
+    document.querySelectorAll('.armor-piece').forEach(div => {
+        prevArmorState.push({
+            headAttr: div.querySelector('.head-attr-select')?.value || '',
+            rune: div.querySelector('.rune-select')?.value || '',
+            insignia: div.querySelector('.insignia-select')?.value || ''
+        });
+    });
+
+    const prevWeaponState = [];
+    document.querySelectorAll('.weapon-set').forEach(set => {
+        prevWeaponState.push({
+            wType: set.querySelector('.w-type')?.value || '',
+            wAttr: set.querySelector('.w-attr')?.value || '',
+            wPre: set.querySelector('.w-prefix')?.value || '',
+            wSuf: set.querySelector('.w-suffix')?.value || '',
+            wInsc: set.querySelector('.w-inscript')?.value || '',
+            oType: set.querySelector('.o-type')?.value || '',
+            oAttr: set.querySelector('.o-attr')?.value || '',
+            oPre: set.querySelector('.o-prefix')?.value || '',
+            oSuf: set.querySelector('.o-suffix')?.value || '',
+            oInsc: set.querySelector('.o-inscript')?.value || ''
+        });
+    });
+
+    buildArmorForms();
+    buildWeaponForms();
+
+    document.querySelectorAll('.armor-piece').forEach((div, i) => {
+        if (prevArmorState[i]) {
+            const hSel = div.querySelector('.head-attr-select');
+            if (hSel && prevArmorState[i].headAttr) hSel.value = prevArmorState[i].headAttr;
+            const rSel = div.querySelector('.rune-select');
+            if (rSel && Array.from(rSel.options).some(o => o.value === prevArmorState[i].rune)) rSel.value = prevArmorState[i].rune;
+            const iSel = div.querySelector('.insignia-select');
+            if (iSel && Array.from(iSel.options).some(o => o.value === prevArmorState[i].insignia)) iSel.value = prevArmorState[i].insignia;
+        }
+    });
+
+    document.querySelectorAll('.weapon-set').forEach((set, i) => {
+        const st = prevWeaponState[i];
+        if (st && st.wType) {
+            set.querySelector('.w-type').value = st.wType;
+            populateUpgrades(set, 'w', getWeaponCategory(st.wType), st.wType);
+            if (st.wAttr) set.querySelector('.w-attr').value = st.wAttr;
+            if (st.wPre) set.querySelector('.w-prefix').value = st.wPre;
+            if (st.wSuf) set.querySelector('.w-suffix').value = st.wSuf;
+            if (st.wInsc) set.querySelector('.w-inscript').value = st.wInsc;
+        }
+        if (st && st.oType) {
+            set.querySelector('.o-type').value = st.oType;
+            populateUpgrades(set, 'o', getWeaponCategory(st.oType), st.oType);
+            if (st.oAttr) set.querySelector('.o-attr').value = st.oAttr;
+            if (st.oPre) set.querySelector('.o-prefix').value = st.oPre;
+            if (st.oSuf) set.querySelector('.o-suffix').value = st.oSuf;
+            if (st.oInsc) set.querySelector('.o-inscript').value = st.oInsc;
+        }
+        
+        set.querySelectorAll('.w-prefix, .w-attr, .o-prefix, .o-attr').forEach(sel => {
+            if(sel.value && sel.value.includes('Anniversary')) sel.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        
+        if (st && TWO_HANDED_WEAPONS.includes(st.wType)) {
+            set.querySelectorAll('.o-type, .o-attr, .o-prefix, .o-suffix, .o-inscript').forEach(s => s.disabled = true);
+        }
+    });
+
+    autoGenerateTemplateCode();
+}
+
+document.getElementById('add-optional-skill-btn').addEventListener('click', () => {
+    const container = document.getElementById('optional-skills-container');
+    const row = document.createElement('div');
+    row.style.marginBottom = '6px';
+    row.innerHTML = `
+        <input type="text" list="all-skills-datalist" class="opt-skill-name" placeholder="Skill Name" style="width: 200px; padding: 4px;">
+        <input type="text" class="opt-skill-desc" placeholder="Description (optional)" style="width: 300px; padding: 4px;">
+        <button class="remove-opt-skill" style="cursor: pointer; color: red;">X</button>
+    `;
+    row.querySelector('.remove-opt-skill').addEventListener('click', () => row.remove());
+    container.appendChild(row);
+});
 
 document.getElementById('decode-btn').addEventListener('click', () => {
     const code = document.getElementById('template-code').value.trim();
-    const eqCodeInput = document.getElementById('equipment-code');
-    const eqCode = eqCodeInput ? eqCodeInput.value.trim() : '';
-
     if (!code) return alert("Please enter a skill template code.");
     
     try {
@@ -88,22 +303,20 @@ document.getElementById('decode-btn').addEventListener('click', () => {
         const result = skillDecoder.parse();
         
         originalCode = code;
-        currentProfession = result.profession.primary;
-        currentSecondary = result.profession.secondary;
-        decodedSkills = result.skills;
-        decodedAttributes = result.attributes;
 
-        if (eqCode) {
-            try {
-                const eqDecoder = new GW1TemplateDecoder(eqCode, skillsData);
-                const rawEqData = eqDecoder.parseEquipment();
-            } catch (err) {
-                console.warn("Could not decode Equipment Code:", err.message);
-            }
-        }
+        document.getElementById('primary-prof-select').value = result.profession.primary;
+        document.getElementById('secondary-prof-select').value = result.profession.secondary;
         
-        buildArmorForms();
-        buildWeaponForms();
+        const skillInputs = document.querySelectorAll('.manual-skill-input');
+        result.skills.forEach((skill, idx) => {
+            if (skillInputs[idx]) {
+                skillInputs[idx].value = (skill === "No Skill" || skill.startsWith("Unknown")) ? "" : skill;
+            }
+        });
+
+        // Important: pass result.attributes so the form fills correctly with the decoded points
+        updateProfessionState(result.profession.primary, result.profession.secondary, result.attributes);
+
     } catch (error) {
         console.error("Decoding error:", error);
         alert("Oops! There was an issue decoding that template.\n\nDetails: " + error.message);
@@ -136,8 +349,8 @@ function buildArmorForms() {
         }
         
         container.innerHTML += `
-            <div class="armor-piece">
-                <strong>${piece}:</strong>
+            <div class="armor-piece" style="margin-bottom: 5px;">
+                <strong style="display:inline-block; width: 50px;">${piece}:</strong>
                 <select class="rune-select"><option value="">-- Rune --</option>${runeOptions}</select>
                 <select class="insignia-select"><option value="">-- Insignia --</option>${insigniaOptions}</select>
                 ${headAttrSelect}
@@ -157,7 +370,7 @@ function buildWeaponForms() {
 
     for (let i = 1; i <= 4; i++) {
         container.innerHTML += `
-            <div class="weapon-set">
+            <div class="weapon-set" style="margin-bottom: 10px;">
                 <strong>Set ${i}:</strong><br>
                 Main: <select class="w-type"><option value="">Type</option>${mainTypes}</select>
                       <select class="w-attr" style="display:none;"><option value="">Attribute</option></select>
@@ -169,7 +382,7 @@ function buildWeaponForms() {
                       <select class="o-prefix"><option value="">Prefix</option></select>
                       <select class="o-suffix"><option value="">Suffix</option></select>
                       <select class="o-inscript"><option value="">Inscription</option></select>
-            </div><br>
+            </div>
         `;
     }
 }
@@ -261,14 +474,14 @@ function populateUpgrades(setDiv, prefix, category, wType) {
 
     const attrs = equipmentData.weapons.attributes[wType] || [];
     let attrHtml = '<option value="">Attribute</option>';
-    attrs.forEach(a => attrHtml += `<option value="${a}">${a}</option>`);
-
+    
     if (ANNIVERSARY_WEAPONS[wType] && wType === "Shield") {
         ANNIVERSARY_WEAPONS[wType].forEach(ann => {
             attrHtml += `<option value='${ann}'>${ann}</option>`;
         });
     }
-
+    
+    attrs.forEach(a => attrHtml += `<option value="${a}">${a}</option>`);
     attrSelect.innerHTML = attrHtml;
     
     if (attrs.length <= 1 && wType !== "Shield") {
@@ -279,8 +492,8 @@ function populateUpgrades(setDiv, prefix, category, wType) {
     }
 
     const upg = equipmentData.weapons.upgrades[category];
-    
     let prefixHtml = '<option value="">Prefix</option>';
+    
     if (ANNIVERSARY_WEAPONS[wType] && wType !== "Shield") {
         ANNIVERSARY_WEAPONS[wType].forEach(ann => {
             prefixHtml += `<option value='${ann}'>${ann}</option>`;
@@ -301,46 +514,11 @@ function populateUpgrades(setDiv, prefix, category, wType) {
 }
 
 document.getElementById('generate-btn').addEventListener('click', () => {
-    const armorDivs = document.querySelectorAll('.armor-piece');
-    let runeCount = 0;
-    let insigniaCount = 0;
-    let isValid = true;
-
-    armorDivs.forEach(div => {
-        if (div.querySelector('.rune-select').value) runeCount++;
-        if (div.querySelector('.insignia-select').value) insigniaCount++;
-    });
-
-    if (runeCount > 0 && runeCount < 5) {
-        armorDivs.forEach(div => {
-            let rs = div.querySelector('.rune-select');
-            rs.style.borderColor = rs.value ? '' : 'red';
-        });
-        isValid = false;
-        alert("Please specify a Rune for all 5 armor pieces, or leave them all blank.");
-    } else {
-        armorDivs.forEach(div => div.querySelector('.rune-select').style.borderColor = '');
-    }
-
-    if (insigniaCount > 0 && insigniaCount < 5) {
-        armorDivs.forEach(div => {
-            let isel = div.querySelector('.insignia-select');
-            isel.style.borderColor = isel.value ? '' : 'red';
-        });
-        isValid = false;
-        if (runeCount === 0 || runeCount === 5) {
-            alert("Please specify an Insignia for all 5 armor pieces, or leave them all blank.");
-        }
-    } else {
-        armorDivs.forEach(div => div.querySelector('.insignia-select').style.borderColor = '');
-    }
-
-    if (!isValid) return;
-
     const buildName = document.getElementById('build-name').value.trim() || "Untitled Build";
     
     const makeLink = (str) => {
         if (!str) return '';
+        if (str === 'Martial Weapon') return `[Martial Weapon](https://wiki.guildwars.com/wiki/Martial_weapon)`;
         let urlName = str.replace(/ /g, '_').replace(/"/g, '%22');
         return `[${str}](https://wiki.guildwars.com/wiki/${urlName})`;
     };
@@ -351,7 +529,8 @@ document.getElementById('generate-btn').addEventListener('click', () => {
         profString += `/${profLink(currentSecondary)}`;
     }
 
-    let md = `**${buildName}** - ${profString} (${originalCode})\n\n`;
+    let codeString = originalCode ? ` (${originalCode})` : "";
+    let md = `**${buildName}** - ${profString}${codeString}\n\n`;
 
     const buildDesc = document.getElementById('build-desc').value.trim();
     if (buildDesc) {
@@ -360,33 +539,52 @@ document.getElementById('generate-btn').addEventListener('click', () => {
 
     const stripDesc = (str) => str ? str.replace(/ \([^)]+\)/g, '') : '';
 
-    const skillLinks = decodedSkills.map(s => s.startsWith("Unknown") ? s : makeLink(s));
+    const manualSkills = Array.from(document.querySelectorAll('.manual-skill-input')).map(inp => inp.value.trim());
+    const skillLinks = manualSkills.map(s => {
+        if (!s || s.toLowerCase() === "optional") return `[Optional](https://wiki.guildwars.com/wiki/Optional)`;
+        return makeLink(s);
+    });
     md += `**Skills**\n\n${skillLinks.join(' | ')}\n\n`;
 
+    const optRows = document.querySelectorAll('#optional-skills-container > div');
+    let optSkillsMd = "";
+    optRows.forEach(row => {
+        const name = row.querySelector('.opt-skill-name').value.trim();
+        const desc = row.querySelector('.opt-skill-desc').value.trim();
+        if (name) {
+            let line = `- ${makeLink(name)}`;
+            if (desc) line += ` - ${desc}`;
+            optSkillsMd += `${line}\n`;
+        }
+    });
+
+    if (optSkillsMd) {
+        md += `**Options**\n\n${optSkillsMd}\n`;
+    }
+
     let finalAttributes = {};
-    decodedAttributes.forEach(a => {
-        if (a.points > 0) finalAttributes[a.attribute] = { base: a.points, rune: 0, head: 0, min5: false };
+    document.querySelectorAll('.manual-attr-input').forEach(inp => {
+        let pts = parseInt(inp.value) || 0;
+        if(pts > 0) finalAttributes[inp.dataset.attr] = { base: pts, rune: 0, head: 0, min5: false };
     });
 
     const sets = document.querySelectorAll('.weapon-set');
     sets.forEach(set => {
         const wSuf = stripDesc(set.querySelector('.w-suffix').value);
         const oSuf = stripDesc(set.querySelector('.o-suffix').value);
-        
         [wSuf, oSuf].forEach(suf => {
             if (suf && suf.startsWith('of the ')) {
                 let profMatch = suf.replace('of the ', '');
                 let primAttr = PRIMARY_ATTRIBUTES[profMatch];
                 if (primAttr) {
-                    if (!finalAttributes[primAttr]) {
-                        finalAttributes[primAttr] = { base: 0, rune: 0, head: 0, min5: false };
-                    }
+                    if (!finalAttributes[primAttr]) finalAttributes[primAttr] = { base: 0, rune: 0, head: 0, min5: false };
                     finalAttributes[primAttr].min5 = true;
                 }
             }
         });
     });
 
+    const armorDivs = document.querySelectorAll('.armor-piece');
     armorDivs.forEach(div => {
         const headSelect = div.querySelector('.head-attr-select');
         if (headSelect && headSelect.value) {
@@ -401,9 +599,7 @@ document.getElementById('generate-btn').addEventListener('click', () => {
             if (match) {
                 const rank = match[1];
                 const attr = match[2];
-                
                 const isSkillAttribute = Object.values(PROF_ATTRIBUTES).some(attrList => attrList.includes(attr));
-                
                 if (isSkillAttribute) {
                     const val = rank === 'Superior' ? 3 : (rank === 'Major' ? 2 : 1);
                     if (!finalAttributes[attr]) finalAttributes[attr] = { base: 0, rune: 0, head: 0, min5: false };
@@ -416,16 +612,12 @@ document.getElementById('generate-btn').addEventListener('click', () => {
     let attrLinks = [];
     for (let attr in finalAttributes) {
         let data = finalAttributes[attr];
-        
         if (data.base > 0 || data.rune > 0 || data.head > 0 || data.min5) {
             let parts = [data.base];
             if (data.rune > 0) parts.push(data.rune);
             if (data.head > 0) parts.push(data.head);
-            
             let valStr = parts.join('+');
-            if (data.min5) {
-                valStr += ' (minimum 5)';
-            }
+            if (data.min5) valStr += ' (minimum 5)';
             attrLinks.push(`${makeLink(attr)}: ${valStr}`);
         }
     }
@@ -436,12 +628,34 @@ document.getElementById('generate-btn').addEventListener('click', () => {
 
     let runes = [];
     let insignias = [];
-    
+    let runeCount = 0;
+    let insigniaCount = 0;
+
+    armorDivs.forEach(div => {
+        if (div.querySelector('.rune-select').value) runeCount++;
+        if (div.querySelector('.insignia-select').value) insigniaCount++;
+    });
+
     armorDivs.forEach(div => {
         let r = stripDesc(div.querySelector('.rune-select').value);
         let i = stripDesc(div.querySelector('.insignia-select').value);
-        if (r) runes.push(makeLink(r));
-        if (i) insignias.push(makeLink(i));
+        
+        if (runeCount > 0) {
+            if (r) {
+                if (r.startsWith("Rune of Vigor (minor, major, or superior)")) {
+                    runes.push(`[Rune of Vigor](https://wiki.guildwars.com/wiki/Rune_of_Vigor)`);
+                } else {
+                    runes.push(makeLink(r));
+                }
+            } else {
+                runes.push(`[Optional](https://wiki.guildwars.com/wiki/Optional)`);
+            }
+        }
+
+        if (insigniaCount > 0) {
+            if (i) insignias.push(makeLink(i));
+            else insignias.push(`[Optional](https://wiki.guildwars.com/wiki/Optional)`);
+        }
     });
 
     if (runes.length > 0) md += `**Runes**\n\n${runes.join(' | ')}\n\n`;
@@ -457,12 +671,8 @@ document.getElementById('generate-btn').addEventListener('click', () => {
         const suf = stripDesc(set.querySelector(`.${prefixStr}-suffix`).value);
         const insc = stripDesc(set.querySelector(`.${prefixStr}-inscript`).value);
 
-        if (pre && pre.includes('Anniversary')) {
-            return makeLink(pre);
-        }
-        if (attr && attr.includes('Anniversary')) {
-            return makeLink(attr);
-        }
+        if (pre && pre.includes('Anniversary')) return makeLink(pre);
+        if (attr && attr.includes('Anniversary')) return makeLink(attr);
 
         let parts = [];
         parts.push(makeLink(type));
@@ -475,42 +685,27 @@ document.getElementById('generate-btn').addEventListener('click', () => {
     };
 
     let validWeaponSets = [];
-
     sets.forEach((set) => {
         const mLinksStr = buildWeaponLinksStr('w', set);
         const oLinksStr = buildWeaponLinksStr('o', set);
-        
         let combined = [];
         if (mLinksStr) combined.push(mLinksStr);
         if (oLinksStr) combined.push(oLinksStr);
-        
-        if (combined.length > 0) {
-            validWeaponSets.push(combined.join(' — '));
-        }
+        if (combined.length > 0) validWeaponSets.push(combined.join(' — '));
     });
 
-    if (validWeaponSets.length === 1) {
-        md += `**Weapon set**\n\n${validWeaponSets[0]}\n\n`;
-    } else if (validWeaponSets.length > 1) {
+    if (validWeaponSets.length === 1) md += `**Weapon set**\n\n${validWeaponSets[0]}\n\n`;
+    else if (validWeaponSets.length > 1) {
         md += `**Weapon sets**\n\n`;
-        validWeaponSets.forEach((ws, idx) => {
-            md += `${idx + 1}) ${ws}\n\n`;
-        });
+        validWeaponSets.forEach((ws, idx) => md += `${idx + 1}) ${ws}\n\n`);
     }
 
     const buildNotes = document.getElementById('build-notes') ? document.getElementById('build-notes').value.trim() : '';
-    if (buildNotes) {
-        md += `**Notes**\n\n${buildNotes}\n\n`;
-    }
+    if (buildNotes) md += `**Notes**\n\n${buildNotes}\n\n`;
 
     md += `---\nGenerated with [Build Markdown Generator](https://guild-wars-tools.github.io/markdown-generator/)`;
 
     const outputString = md.trim();
     document.getElementById('output').value = outputString;
-    
-    if (outputString.length > 0) {
-        copyBtn.style.display = 'inline-block';
-    } else {
-        copyBtn.style.display = 'none';
-    }
+    copyBtn.style.display = outputString.length > 0 ? 'inline-block' : 'none';
 });

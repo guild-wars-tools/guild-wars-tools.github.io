@@ -2,56 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GW1 Reddit Build Formatter</title>
-	<link rel="stylesheet" href="styles.css">
+    <title>Guild Wars: Reforged - Build Markdown Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.6; background-color: #f4f4f9; color: #333; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
+        section { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+        .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
+        .attr-box { display: flex; flex-direction: column; font-size: 0.9em; }
+        .attr-box input { width: 50px; padding: 4px; margin-top: 4px; }
+    </style>
 </head>
 <body>
-	<div style="margin-bottom: 20px;">
+    <div style="margin-bottom: 20px;">
         <a href="../index.html" style="text-decoration: none; color: #0056b3; font-weight: bold;">&larr; Back to Guild Wars Tools</a>
     </div>
-	
-    <h1>GW1 Reddit Build Formatter</h1>
+    
+    <h1>Guild Wars: Reforged - Build Markdown Generator</h1>
 
-	<section id="input-section">
-        <label for="template-code">Skill Template Code:</label>
-        <input type="text" id="template-code" placeholder="OAhjQkGZIP3hhWVVaO5EeAAAA">
-        <button id="decode-btn">Decode & Load Profession</button>
-        <br><br>
-		<!--<label for="equipment-code">Equipment Template Code (Optional):</label>
-		<input type="text" id="equipment-code" placeholder="Enter Equipment Code...">
-		<br><br>-->
-        <label for="build-name">Build Name:</label>
-        <input type="text" id="build-name" placeholder="e.g., My Awesome Monk">
-        <br><br>
-        <label for="build-desc">Description (Optional):</label><br>
-        <textarea id="build-desc" rows="3" cols="50" placeholder="Enter a brief description of the build..."></textarea>
+    <section id="decode-section" style="background: #eef2f5;">
+        <label for="template-code" style="font-weight: bold;">Skill Template Code:</label>
+        <input type="text" id="template-code" placeholder="Enter code here or build manually below..." style="width: 300px; padding: 5px;">
+        <button id="decode-btn" style="padding: 5px 15px; cursor: pointer;">Decode</button>
+        <div style="font-size: 0.85em; color: #666; margin-top: 5px;">(Editing the build below will automatically generate a new code here)</div>
     </section>
+    
+    <section id="meta-section">
+        <label for="build-name" style="font-weight: bold;">Build Name:</label><br>
+        <input type="text" id="build-name" placeholder="e.g., My Awesome Monk" style="width: 100%; max-width: 400px; padding: 5px; margin-bottom: 15px;"><br>
+        
+        <label for="build-desc" style="font-weight: bold;">Description (Optional):</label><br>
+        <textarea id="build-desc" rows="3" style="width: 100%; max-width: 600px; padding: 5px;" placeholder="Enter a brief description of the build..."></textarea>
+    </section>
+    
+    <section id="core-build-section">
+        <div style="margin-bottom: 20px;">
+            <strong>Primary Profession:</strong>
+            <select id="primary-prof-select" style="margin-right: 15px; padding: 4px;"></select>
+            
+            <strong>Secondary Profession:</strong>
+            <select id="secondary-prof-select" style="padding: 4px;"></select>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <strong>Attributes:</strong> <span id="attr-points-tally" style="font-weight: normal; font-size: 0.9em; margin-left: 10px; color: #555;">(0 / 200 Points)</span>
+            <div id="attributes-inputs-container" class="grid-6">
+                </div>
+        </div>
 
-    <hr>
+        <div style="margin-bottom: 20px;">
+            <strong>Skills:</strong>
+            <div id="skills-inputs-container" class="grid-4">
+                </div>
+        </div>
+        
+        <div>
+            <strong>Optional Skills:</strong>
+            <div id="optional-skills-container" style="margin-top: 10px;"></div>
+            <button id="add-optional-skill-btn" style="margin-top: 10px; padding: 4px 8px; cursor: pointer;">+ Add Optional Skill</button>
+            <datalist id="all-skills-datalist"></datalist>
+        </div>
+    </section>
 
     <section id="armor-section">
         <h3>Armor Sets</h3>
-        <div id="armor-forms">
-            </div>
+        <div id="armor-forms"></div>
     </section>
 
     <section id="weapon-section">
         <h3>Weapon Sets (Up to 4)</h3>
-        <div id="weapon-forms">
-            </div>
+        <div id="weapon-forms"></div>
     </section>
-
-    <hr>
-	
-	<div style="margin-top: 20px;">
-		<strong>Notes (Optional):</strong><br>
-		<textarea id="build-notes" rows="4" style="width: 100%; max-width: 600px;"></textarea>
-	</div>
-
+    
     <section id="output-section">
-        <button id="generate-btn">Generate Reddit Markdown</button>
+        <div style="margin-bottom: 15px;">
+            <strong>Notes (Optional):</strong><br>
+            <textarea id="build-notes" rows="3" style="width: 100%; padding: 5px;"></textarea>
+        </div>
+
+        <button id="generate-btn" style="padding: 10px 20px; font-weight: bold; cursor: pointer;">Generate Markdown</button>
         <br><br>
-        <textarea id="output" rows="15" cols="80" placeholder="Your Reddit code will appear here..."></textarea>
+        <textarea id="output" rows="15" style="width: 100%; padding: 10px; font-family: monospace;" placeholder="Your Markdown/Reddit code will appear here..."></textarea>
     </section>
 
     <script src="decoder.js"></script>
