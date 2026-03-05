@@ -43,13 +43,13 @@ copyBtn.style.backgroundColor = '#ff9800';
 copyBtn.style.color = '#fff';
 copyBtn.style.border = 'none';
 copyBtn.style.borderRadius = '4px';
-copyBtn.style.padding = '8px 16px';
+copyBtn.style.padding = '10px 20px';
 copyBtn.style.fontWeight = 'bold';
 copyBtn.style.cursor = 'pointer';
 copyBtn.style.marginLeft = '10px';
 copyBtn.style.display = 'none'; 
 
-generateBtn.parentNode.insertBefore(copyBtn, generateBtn.nextSibling);
+generateBtn.parentNode.insertBefore(copyBtn, document.getElementById('reset-btn').nextSibling);
 copyBtn.addEventListener('click', () => {
     const outputField = document.getElementById('output');
     outputField.select();
@@ -77,6 +77,36 @@ Promise.all([
     buildArmorForms();
     buildWeaponForms();
 }).catch(err => console.error("Error loading databases:", err));
+
+// Hard Reset Function
+document.getElementById('reset-btn').addEventListener('click', () => {
+    if(confirm("Are you sure you want to clear the entire build?")) {
+        document.getElementById('template-code').value = "";
+        document.getElementById('build-name').value = "";
+        document.getElementById('build-desc').value = "";
+        document.getElementById('build-notes').value = "";
+        document.getElementById('output').value = "";
+        
+        originalCode = "";
+        currentProfession = "None";
+        currentSecondary = "None";
+        
+        document.getElementById('primary-prof-select').value = "None";
+        document.getElementById('secondary-prof-select').value = "None";
+        
+        document.getElementById('optional-skills-container').innerHTML = '';
+        document.querySelectorAll('.manual-skill-input').forEach(inp => inp.value = "");
+        
+        const attrContainer = document.getElementById('attributes-inputs-container');
+        if (attrContainer) attrContainer.innerHTML = '';
+        updateAttributeTally();
+        
+        buildArmorForms();
+        buildWeaponForms();
+        
+        copyBtn.style.display = 'none';
+    }
+});
 
 function updateAttributeTally(changedInput = null) {
     let inputs = Array.from(document.querySelectorAll('.manual-attr-input'));
@@ -184,6 +214,13 @@ function updateProfessionState(primProf, secProf, decodedAttrs = []) {
 
     const attrContainer = document.getElementById('attributes-inputs-container');
     if (attrContainer) {
+        // 1. Save current attribute values before clearing
+        let currentAttrState = {};
+        document.querySelectorAll('.manual-attr-input').forEach(inp => {
+            let pts = parseInt(inp.value) || 0;
+            if (pts > 0) currentAttrState[inp.dataset.attr] = pts;
+        });
+
         attrContainer.innerHTML = '';
         let availableAttrs = [];
         if (PROF_ATTRIBUTES[primProf]) availableAttrs.push(...PROF_ATTRIBUTES[primProf]);
@@ -191,8 +228,15 @@ function updateProfessionState(primProf, secProf, decodedAttrs = []) {
 
         availableAttrs.forEach(attr => {
             let defaultVal = 0;
+            // First check if it came from a direct decode
             let decoded = decodedAttrs.find(a => a.attribute === attr);
-            if (decoded) defaultVal = decoded.points;
+            if (decoded) {
+                defaultVal = decoded.points;
+            } 
+            // Second check if it was previously entered by the user manually
+            else if (currentAttrState[attr]) {
+                defaultVal = currentAttrState[attr];
+            }
 
             attrContainer.innerHTML += `
                 <div class="attr-box">
@@ -314,7 +358,6 @@ document.getElementById('decode-btn').addEventListener('click', () => {
             }
         });
 
-        // Important: pass result.attributes so the form fills correctly with the decoded points
         updateProfessionState(result.profession.primary, result.profession.secondary, result.attributes);
 
     } catch (error) {
@@ -703,7 +746,7 @@ document.getElementById('generate-btn').addEventListener('click', () => {
     const buildNotes = document.getElementById('build-notes') ? document.getElementById('build-notes').value.trim() : '';
     if (buildNotes) md += `**Notes**\n\n${buildNotes}\n\n`;
 
-    md += `---\nGenerated with [Build Markdown Generator](https://guild-wars-tools.github.io/markdown-generator/)`;
+    md += `---\n[Build Markdown Generator](https://guild-wars-tools.github.io/markdown-generator/)`;
 
     const outputString = md.trim();
     document.getElementById('output').value = outputString;
