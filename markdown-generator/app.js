@@ -33,23 +33,16 @@ const PRIMARY_ATTRIBUTES = {
 
 const ALL_PROFESSIONS = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
 
-// CORRECTED GW1 Attribute Cost Curve
 const ATTR_COST = [0, 1, 3, 6, 10, 15, 21, 28, 37, 48, 61, 77, 97]; 
 
 let generateBtn = document.getElementById('generate-btn');
 let copyBtn = document.createElement('button');
+copyBtn.id = 'copy-btn';
 copyBtn.textContent = 'Copy to Clipboard';
-copyBtn.style.backgroundColor = '#ff9800'; 
-copyBtn.style.color = '#fff';
-copyBtn.style.border = 'none';
-copyBtn.style.borderRadius = '4px';
-copyBtn.style.padding = '10px 20px';
-copyBtn.style.fontWeight = 'bold';
-copyBtn.style.cursor = 'pointer';
-copyBtn.style.marginLeft = '10px';
 copyBtn.style.display = 'none'; 
 
-generateBtn.parentNode.insertBefore(copyBtn, document.getElementById('reset-btn').nextSibling);
+generateBtn.parentNode.appendChild(copyBtn);
+
 copyBtn.addEventListener('click', () => {
     const outputField = document.getElementById('output');
     outputField.select();
@@ -132,7 +125,7 @@ function updateAttributeTally(changedInput = null) {
     const tallyDisplay = document.getElementById('attr-points-tally');
     if (tallyDisplay) {
         tallyDisplay.textContent = `(${total} / 200 Points)`;
-        tallyDisplay.style.color = total === 200 ? '#ff9800' : (total > 200 ? 'red' : '#555');
+        tallyDisplay.style.color = total === 200 ? '#ffb74d' : (total > 200 ? '#ff5252' : '#aaa');
     }
 }
 
@@ -201,7 +194,6 @@ function buildManualCoreForms() {
             inp.className = 'manual-skill-input';
             inp.placeholder = 'Optional';
             inp.style.width = '100%';
-            inp.style.padding = '5px';
             inp.addEventListener('input', autoGenerateTemplateCode); 
             skillsContainer.appendChild(inp);
         }
@@ -214,7 +206,6 @@ function updateProfessionState(primProf, secProf, decodedAttrs = []) {
 
     const attrContainer = document.getElementById('attributes-inputs-container');
     if (attrContainer) {
-        // 1. Save current attribute values before clearing
         let currentAttrState = {};
         document.querySelectorAll('.manual-attr-input').forEach(inp => {
             let pts = parseInt(inp.value) || 0;
@@ -228,12 +219,10 @@ function updateProfessionState(primProf, secProf, decodedAttrs = []) {
 
         availableAttrs.forEach(attr => {
             let defaultVal = 0;
-            // First check if it came from a direct decode
             let decoded = decodedAttrs.find(a => a.attribute === attr);
             if (decoded) {
                 defaultVal = decoded.points;
             } 
-            // Second check if it was previously entered by the user manually
             else if (currentAttrState[attr]) {
                 defaultVal = currentAttrState[attr];
             }
@@ -330,9 +319,9 @@ document.getElementById('add-optional-skill-btn').addEventListener('click', () =
     const row = document.createElement('div');
     row.style.marginBottom = '6px';
     row.innerHTML = `
-        <input type="text" list="all-skills-datalist" class="opt-skill-name" placeholder="Skill Name" style="width: 200px; padding: 4px;">
-        <input type="text" class="opt-skill-desc" placeholder="Description (optional)" style="width: 300px; padding: 4px;">
-        <button class="remove-opt-skill" style="cursor: pointer; color: red;">X</button>
+        <input type="text" list="all-skills-datalist" class="opt-skill-name" placeholder="Skill Name" style="width: 200px;">
+        <input type="text" class="opt-skill-desc" placeholder="Description (optional)" style="width: 300px; margin-left: 10px;">
+        <button class="remove-opt-skill" style="background: none; border: none; font-size: 1.2em; cursor: pointer; color: #ff5252; padding: 0 5px; margin-left: 5px;">&times;</button>
     `;
     row.querySelector('.remove-opt-skill').addEventListener('click', () => row.remove());
     container.appendChild(row);
@@ -392,7 +381,7 @@ function buildArmorForms() {
         }
         
         container.innerHTML += `
-            <div class="armor-piece" style="margin-bottom: 5px;">
+            <div class="armor-piece" style="margin-bottom: 8px;">
                 <strong style="display:inline-block; width: 50px;">${piece}:</strong>
                 <select class="rune-select"><option value="">-- Rune --</option>${runeOptions}</select>
                 <select class="insignia-select"><option value="">-- Insignia --</option>${insigniaOptions}</select>
@@ -413,18 +402,24 @@ function buildWeaponForms() {
 
     for (let i = 1; i <= 4; i++) {
         container.innerHTML += `
-            <div class="weapon-set" style="margin-bottom: 10px;">
-                <strong>Set ${i}:</strong><br>
-                Main: <select class="w-type"><option value="">Type</option>${mainTypes}</select>
-                      <select class="w-attr" style="display:none;"><option value="">Attribute</option></select>
-                      <select class="w-prefix"><option value="">Prefix</option></select>
-                      <select class="w-suffix"><option value="">Suffix</option></select>
-                      <select class="w-inscript"><option value="">Inscription</option></select><br>
-                Offhand: <select class="o-type"><option value="">Type</option>${offTypes}</select>
-                      <select class="o-attr" style="display:none;"><option value="">Attribute</option></select>
-                      <select class="o-prefix"><option value="">Prefix</option></select>
-                      <select class="o-suffix"><option value="">Suffix</option></select>
-                      <select class="o-inscript"><option value="">Inscription</option></select>
+            <div class="weapon-set" style="margin-bottom: 15px;">
+                <strong style="color: #64b5f6;">Set ${i}:</strong><br>
+                <div style="margin-top: 5px;">
+                    <span style="display:inline-block; width: 60px;">Main:</span> 
+                    <select class="w-type"><option value="">Type</option>${mainTypes}</select>
+                    <select class="w-attr" style="display:none;"><option value="">Attribute</option></select>
+                    <select class="w-prefix"><option value="">Prefix</option></select>
+                    <select class="w-suffix"><option value="">Suffix</option></select>
+                    <select class="w-inscript"><option value="">Inscription</option></select>
+                </div>
+                <div style="margin-top: 5px;">
+                    <span style="display:inline-block; width: 60px;">Offhand:</span> 
+                    <select class="o-type"><option value="">Type</option>${offTypes}</select>
+                    <select class="o-attr" style="display:none;"><option value="">Attribute</option></select>
+                    <select class="o-prefix"><option value="">Prefix</option></select>
+                    <select class="o-suffix"><option value="">Suffix</option></select>
+                    <select class="o-inscript"><option value="">Inscription</option></select>
+                </div>
             </div>
         `;
     }
@@ -746,7 +741,7 @@ document.getElementById('generate-btn').addEventListener('click', () => {
     const buildNotes = document.getElementById('build-notes') ? document.getElementById('build-notes').value.trim() : '';
     if (buildNotes) md += `**Notes**\n\n${buildNotes}\n\n`;
 
-    md += `---\n[Build Markdown Generator](https://guild-wars-tools.github.io/markdown-generator/)`;
+    md += `---\n[Markdown Generator](https://guild-wars-tools.github.io/markdown-generator/)`;
 
     const outputString = md.trim();
     document.getElementById('output').value = outputString;

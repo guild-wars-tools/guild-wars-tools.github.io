@@ -4,52 +4,114 @@
     <meta charset="UTF-8">
     <title>Guild Wars: Reforged - Build Markdown Generator</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.6; background-color: #f4f4f9; color: #333; }
-        h1 { color: #2c3e50; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 10px; }
-        section { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            line-height: 1.6; 
+            background-color: #121212; 
+            color: #e0e0e0; 
+        }
+        h1, h2, h3 { 
+            color: #ffffff; 
+            border-bottom: 2px solid #444; 
+            padding-bottom: 10px; 
+            margin-bottom: 15px; 
+        }
+        section, #manual-build-core { 
+            background: #1e1e1e; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+            border: 1px solid #333;
+        }
+        a { color: #64b5f6; text-decoration: none; font-weight: bold; }
+        a:hover { color: #90caf9; text-decoration: underline; }
+        
+        /* Form Elements */
+        input[type="text"], input[type="number"], select, textarea {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 6px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        input::placeholder, textarea::placeholder { color: #888; }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #64b5f6;
+            box-shadow: 0 0 4px rgba(100, 181, 246, 0.5);
+        }
+
+        /* Standard Buttons */
+        button {
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #444; }
+
+        /* Specific Action Buttons */
+        #decode-btn { background-color: #1565c0; color: #fff; border: none; padding: 6px 15px; }
+        #decode-btn:hover { background-color: #0d47a1; }
+        #generate-btn { background-color: #2e7d32; color: white; border: none; padding: 10px 20px; font-weight: bold; }
+        #generate-btn:hover { background-color: #1b5e20; }
+        #reset-btn { background-color: #c62828; color: white; border: none; padding: 10px 20px; font-weight: bold; margin-left: 10px; }
+        #reset-btn:hover { background-color: #b71c1c; }
+        #copy-btn { background-color: #e65100; color: white; border: none; padding: 10px 20px; font-weight: bold; margin-left: 10px; }
+        #copy-btn:hover { background-color: #bf360c; }
+
+        /* Layout Grids */
         .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
         .attr-box { display: flex; flex-direction: column; font-size: 0.9em; }
-        .attr-box input { width: 50px; padding: 4px; margin-top: 4px; }
+        .attr-box input { width: 50px; margin-top: 4px; }
     </style>
 </head>
 <body>
     <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-        <a href="../index.html" style="text-decoration: none; color: #0056b3; font-weight: bold;">&larr; Back to Guild Wars Tools</a>
+        <a href="../index.html">&larr; Back to Guild Wars Tools</a>
     </div>
     
     <h1>Guild Wars: Reforged - Build Markdown Generator</h1>
     
     <div style="margin-bottom: 20px;">
-        <a href="https://www.reddit.com/r/GuildWars/comments/1rkylwj/i_created_a_tool_to_share_builds_on_reddit/" target="_blank" style="text-decoration: none; color: #d32f2f; font-weight: bold;">&#128250; Watch the Tutorial Video</a>
+        <a href="https://www.reddit.com/r/GuildWars/comments/1rkylwj/i_created_a_tool_to_share_builds_on_reddit/" target="_blank" style="color: #ef5350;">&#128250; Watch the Tutorial Video</a>
     </div>
 
-    <section id="decode-section" style="background: #eef2f5;">
+    <section id="decode-section">
         <label for="template-code" style="font-weight: bold;">Skill Template Code:</label>
-        <input type="text" id="template-code" placeholder="Enter code here or build manually below..." style="width: 300px; padding: 5px;">
-        <button id="decode-btn" style="padding: 5px 15px; cursor: pointer;">Decode</button>
-        <div style="font-size: 0.85em; color: #666; margin-top: 5px;">(Editing the build below will automatically generate a new code here)</div>
+        <input type="text" id="template-code" placeholder="Enter code here or build manually below..." style="width: 300px; margin-right: 10px;">
+        <button id="decode-btn">Decode</button>
+        <div style="font-size: 0.85em; color: #aaa; margin-top: 5px;">(Editing the build below will automatically generate a new code here)</div>
     </section>
     
     <section id="meta-section">
         <label for="build-name" style="font-weight: bold;">Build Name:</label><br>
-        <input type="text" id="build-name" placeholder="e.g., My Awesome Monk" style="width: 100%; max-width: 400px; padding: 5px; margin-bottom: 15px;"><br>
+        <input type="text" id="build-name" placeholder="e.g., My Awesome Monk" style="width: 100%; max-width: 400px; margin-bottom: 15px;"><br>
         
         <label for="build-desc" style="font-weight: bold;">Description (Optional):</label><br>
-        <textarea id="build-desc" rows="3" style="width: 100%; max-width: 600px; padding: 5px;" placeholder="Enter a brief description of the build..."></textarea>
+        <textarea id="build-desc" rows="3" style="width: 100%; max-width: 600px;" placeholder="Enter a brief description of the build..."></textarea>
     </section>
     
-    <section id="core-build-section">
+    <div id="manual-build-core">
         <div style="margin-bottom: 20px;">
             <strong>Primary Profession:</strong>
-            <select id="primary-prof-select" style="margin-right: 15px; padding: 4px;"></select>
+            <select id="primary-prof-select" style="margin-right: 15px;"></select>
             
             <strong>Secondary Profession:</strong>
-            <select id="secondary-prof-select" style="padding: 4px;"></select>
+            <select id="secondary-prof-select"></select>
         </div>
         
         <div style="margin-bottom: 20px;">
-            <strong>Attributes:</strong> <span id="attr-points-tally" style="font-weight: normal; font-size: 0.9em; margin-left: 10px; color: #555;">(0 / 200 Points)</span>
+            <strong>Attributes:</strong> <span id="attr-points-tally" style="font-weight: normal; font-size: 0.9em; margin-left: 10px; color: #aaa;">(0 / 200 Points)</span>
             <div id="attributes-inputs-container" class="grid-6">
                 </div>
         </div>
@@ -63,10 +125,10 @@
         <div>
             <strong>Optional Skills:</strong>
             <div id="optional-skills-container" style="margin-top: 10px;"></div>
-            <button id="add-optional-skill-btn" style="margin-top: 10px; padding: 4px 8px; cursor: pointer;">+ Add Optional Skill</button>
+            <button id="add-optional-skill-btn" style="margin-top: 10px;">+ Add Optional Skill</button>
             <datalist id="all-skills-datalist"></datalist>
         </div>
-    </section>
+    </div>
 
     <section id="armor-section">
         <h3>Armor Sets (Optional)</h3>
@@ -81,15 +143,15 @@
     <section id="output-section">
         <div style="margin-bottom: 15px;">
             <strong>Notes (Optional):</strong><br>
-            <textarea id="build-notes" rows="3" style="width: 100%; padding: 5px;"></textarea>
+            <textarea id="build-notes" rows="3" style="width: 100%;"></textarea>
         </div>
 
         <div style="margin-bottom: 15px;">
-            <button id="generate-btn" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Generate Markdown</button>
-            <button id="reset-btn" style="padding: 10px 20px; background-color: #d9534f; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-left: 10px;">Reset Build</button>
+            <button id="generate-btn">Generate Markdown</button>
+            <button id="reset-btn">Reset Build</button>
         </div>
         
-        <textarea id="output" rows="15" style="width: 100%; padding: 10px; font-family: monospace;" placeholder="Your Markdown/Reddit code will appear here..."></textarea>
+        <textarea id="output" rows="15" style="width: 100%; font-family: monospace;" placeholder="Your Markdown/Reddit code will appear here..."></textarea>
     </section>
 
     <script src="decoder.js"></script>

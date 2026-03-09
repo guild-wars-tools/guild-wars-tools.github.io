@@ -11,49 +11,51 @@
             margin: 40px auto;
             padding: 0 20px;
             line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #121212;
+            color: #e0e0e0;
         }
         h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #ccc;
+            color: #ffffff;
+            border-bottom: 2px solid #444;
             padding-bottom: 10px;
         }
         .tool-card {
-            background: #fff;
+            background: #1e1e1e;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #333;
         }
         .tool-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+            border-color: #555;
         }
         .tool-card h3 {
             margin-top: 0;
-            color: #0056b3;
+            color: #64b5f6;
         }
         .tool-card a {
             text-decoration: none;
             color: inherit;
         }
         .description {
-            color: #555;
+            color: #aaa;
         }
     </style>
 </head>
 <body>
 
     <h1>Guild Wars Tools</h1>
-    <p>A collection of utilities for Guild Wars: Reforged!</p>
+    <p>A collection of utilities for Guild Wars 1.</p>
 
     <a href="markdown-generator/" style="text-decoration: none;">
         <div class="tool-card">
             <h3>Build Markdown Generator</h3>
             <div class="description">
-                Decode skill template codes and configure armor and weapon loadouts to generate fully-linked, Reddit-compatible Markdown.
+                Decode GW1 skill template codes and configure armor and weapon loadouts to generate fully-linked Reddit Markdown.
             </div>
         </div>
     </a>
