@@ -14,10 +14,15 @@
             background-color: #121212;
             color: #e0e0e0;
         }
-        h1 {
+        h1, h2 {
             color: #ffffff;
             border-bottom: 2px solid #444;
             padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 50px;
+            border-bottom: 1px solid #444;
+            font-size: 1.5em;
         }
         .tool-card {
             background: #1e1e1e;
@@ -44,6 +49,32 @@
         .description {
             color: #aaa;
         }
+        
+        /* External Links Styling */
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .external-link {
+            background: #1e1e1e;
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            color: #64b5f6;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        .external-link:hover {
+            background: #2d2d2d;
+            border-color: #64b5f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            color: #90caf9;
+        }
     </style>
 </head>
 <body>
@@ -53,12 +84,21 @@
 
     <a href="markdown-generator/" style="text-decoration: none;">
         <div class="tool-card">
-            <h3>Build Markdown Generator</h3>
+            <h3>Markdown Generator</h3>
             <div class="description">
                 Decode GW1 skill template codes and configure armor and weapon loadouts to generate fully-linked Reddit Markdown.
             </div>
         </div>
     </a>
+
+    <h2>Community & Resources</h2>
+    <div class="links-container">
+        <a href="https://wiki.guildwars.com/wiki/Main_Page" target="_blank" class="external-link">Official Wiki</a>
+        <a href="https://gwpvx.fandom.com/wiki/PvX_wiki" target="_blank" class="external-link">PvXwiki</a>
+        <a href="https://www.reddit.com/r/GuildWars/" target="_blank" class="external-link">r/GuildWars</a>
+        <a href="https://store.guildwars.com/" target="_blank" class="external-link">Official Store</a>
+        <a href="https://store.steampowered.com/app/29720/Guild_Wars_Reforged/" target="_blank" class="external-link">Steam Store</a>
+    </div>
 
 </body>
 </html>
