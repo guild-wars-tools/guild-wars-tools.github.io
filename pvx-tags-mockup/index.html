@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PvXwiki Farming Builds - Dropdown Mock-up</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f5f7; color: #333; line-height: 1.6; }
+        h1 { border-bottom: 2px solid #ccc; padding-bottom: 10px; font-size: 24px; }
+        
+        /* Dropdown Styles */
+        .controls { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; background: white; padding: 15px; border: 1px solid #ddd; border-radius: 5px; align-items: center; }
+        .dropdown { position: relative; }
+        .dropdown-btn { background: #eee; border: 1px solid #ccc; padding: 8px 15px; cursor: pointer; border-radius: 4px; min-width: 160px; text-align: left; font-weight: bold; }
+        .dropdown-btn::after { content: ' ▼'; float: right; font-size: 12px; }
+        .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background: white; min-width: 200px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid #ccc; z-index: 10; padding: 10px; border-radius: 4px; max-height: 250px; overflow-y: auto; }
+        .dropdown.open .dropdown-content { display: block; }
+        .dropdown-content label { display: block; margin-bottom: 8px; cursor: pointer; font-size: 14px; }
+        .dropdown-content label:hover { background: #f0f0f0; }
+
+        /* Clear Button */
+        #clear-filters { background: #ffe6e6; border: 1px solid #ffb3b3; color: #cc0000; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        #clear-filters:hover { background: #ffcccc; }
+
+        /* Build List Styles */
+        .profession-group { margin-bottom: 30px; background: white; padding: 15px 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .profession-group h2 { margin-top: 0; color: #005a9c; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 20px; }
+        .build-list { list-style-type: none; padding: 0; margin: 0; }
+        .build-item { padding: 6px 0; border-bottom: 1px dashed #eee; display: flex; align-items: center; justify-content: space-between; }
+        .build-item:last-child { border-bottom: none; }
+        .build-link { text-decoration: none; color: #0645ad; font-weight: bold; }
+        .build-link:hover { text-decoration: underline; }
+        .tags { font-size: 11px; color: #666; display: flex; gap: 5px; }
+        .tag { background: #e0e0e0; padding: 2px 6px; border-radius: 8px; }
+        
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<h1>All Working Farming Builds</h1>
+
+<div class="controls" id="filters">
+    <div class="dropdown" data-category="profession">
+        <button class="dropdown-btn">Profession</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="any"> Any</label>
+            <label><input type="checkbox" value="assassin"> Assassin</label>
+            <label><input type="checkbox" value="dervish"> Dervish</label>
+            <label><input type="checkbox" value="elementalist"> Elementalist</label>
+            <label><input type="checkbox" value="mesmer"> Mesmer</label>
+            <label><input type="checkbox" value="monk"> Monk</label>
+            <label><input type="checkbox" value="necromancer"> Necromancer</label>
+            <label><input type="checkbox" value="paragon"> Paragon</label>
+            <label><input type="checkbox" value="ranger"> Ranger</label>
+            <label><input type="checkbox" value="ritualist"> Ritualist</label>
+            <label><input type="checkbox" value="team"> Team</label>
+            <label><input type="checkbox" value="warrior"> Warrior</label>
+        </div>
+    </div>
+    <div class="dropdown" data-category="location">
+        <button class="dropdown-btn">Location</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="fow"> Fissure of Woe</label>
+            <label><input type="checkbox" value="uw"> Underworld</label>
+            <label><input type="checkbox" value="gates"> Gates of Kryta</label>
+            <label><input type="checkbox" value="ascalon"> Old Ascalon</label>
+            <label><input type="checkbox" value="jaga"> Jaga Moraine</label>
+        </div>
+    </div>
+    <div class="dropdown" data-category="drops">
+        <button class="dropdown-btn">Drops</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="ecto"> Ecto</label>
+            <label><input type="checkbox" value="shards"> Shards</label>
+            <label><input type="checkbox" value="dust"> Dust</label>
+            <label><input type="checkbox" value="feathers"> Feathers</label>
+            <label><input type="checkbox" value="weapons"> Old School Weapons</label>
+            <label><input type="checkbox" value="granite"> Granite</label>
+        </div>
+    </div>
+    <div class="dropdown" data-category="team-size">
+        <button class="dropdown-btn">Team vs Solo</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="solo"> Solo</label>
+            <label><input type="checkbox" value="team"> Team</label>
+        </div>
+    </div>
+    <div class="dropdown" data-category="format">
+        <button class="dropdown-btn">Format</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="individual"> Individual Location</label>
+            <label><input type="checkbox" value="guide"> General Guide</label>
+        </div>
+    </div>
+    
+    <button id="clear-filters">Clear Filters</button>
+</div>
+
+<div id="build-container">
+    <div class="profession-group">
+        <h2>Any</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="any" data-location="uw gates" data-drops="dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Any/A Raven Stygian Farm</a>
+                <span class="tags"><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="any monk" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Any/Mo Gates of Kryta Farmer</a>
+                <span class="tags"><span class="tag">gates</span><span class="tag">granite</span></span>
+            </li>
+            <li class="build-item" data-profession="any ritualist" data-location="ascalon" data-drops="feathers" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:Any/Rt Feather Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span><span class="tag">feathers</span></span>
+            </li>
+            <li class="build-item" data-profession="any warrior" data-location="jaga" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Any/W Ministerial Commendation Farmer</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">weapons</span></span>
+            </li>
+            <li class="build-item" data-profession="any warrior" data-location="fow" data-drops="shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Any/W Rajazan's Fervor Farmer</a>
+                <span class="tags"><span class="tag">fow</span><span class="tag">shards</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Assassin</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="assassin" data-location="gates" data-drops="dust" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:A/any Flashing Blades Farmer</a>
+                <span class="tags"><span class="tag">gates</span><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin dervish" data-location="fow" data-drops="ecto shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/D Focus of Hanaku Farmer</a>
+                <span class="tags"><span class="tag">fow</span><span class="tag">ecto</span><span class="tag">shards</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin dervish" data-location="fow" data-drops="ecto shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/D FoW Farmer</a>
+                <span class="tags"><span class="tag">fow</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin dervish" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/D Plains Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin elementalist" data-location="uw" data-drops="ecto dust" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:A/E Perma Boss Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin mesmer" data-location="jaga" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/Me Icy Dragon Sword Farmer</a>
+                <span class="tags"><span class="tag">weapons</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin mesmer" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/Me Margonite Gemstone Farm</a>
+                <span class="tags"><span class="tag">granite</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin mesmer" data-location="jaga" data-drops="weapons dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/Me Vaettir Farm</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="assassin ranger" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:A/R Mantid Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Dervish</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="dervish" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:D/any Gates of Kryta HM Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="dervish" data-location="uw gates" data-drops="dust" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:D/any General Vow of Silence Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">guide</span></span>
+            </li>
+            <li class="build-item" data-profession="dervish" data-location="uw gates" data-drops="dust" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:D/any General Vow of Strength Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">guide</span></span>
+            </li>
+            <li class="build-item" data-profession="dervish monk" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:D/Mo 130hp Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="dervish necromancer" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:D/N Raptor Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span></span>
+            </li>
+            <li class="build-item" data-profession="dervish necromancer" data-location="jaga" data-drops="dust weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:D/N Vaettir Farmer</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">dust</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Elementalist</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="elementalist" data-location="ascalon gates" data-drops="dust feathers" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:E/any Dust and Feather Farmer</a>
+                <span class="tags"><span class="tag">dust</span><span class="tag">feathers</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist" data-location="uw" data-drops="ecto dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:E/any EA UW Wastes Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist mesmer" data-location="gates uw" data-drops="dust" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:E/Me General Shockwave Farmer</a>
+                <span class="tags"><span class="tag">guide</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist mesmer" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:E/Me Obsidian Flesh Caster Farmer</a>
+                <span class="tags"><span class="tag">uw</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist mesmer" data-location="jaga" data-drops="dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:E/Me Obsidian Flesh Vaettir Farmer</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist monk" data-location="uw fow" data-drops="ecto shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:E/Mo 330hp Sliver Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist monk" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:E/Mo Undercity Kappa Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="elementalist ritualist" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:E/Rt Nolani Academy Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span><span class="tag">weapons</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Mesmer</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="mesmer assassin" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Me/A Stygian Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="mesmer assassin" data-location="jaga" data-drops="dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Me/A Vaettir Farm</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="mesmer assassin" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Me/A Zelnehlun Fastfoot Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="mesmer monk" data-location="fow uw" data-drops="ecto shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Me/Mo 105hp Farmer</a>
+                <span class="tags"><span class="tag">fow</span><span class="tag">shards</span></span>
+            </li>
+            <li class="build-item" data-profession="mesmer monk" data-location="gates" data-drops="feathers" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Me/Mo Bezzr Wingstorm Farmer</a>
+                <span class="tags"><span class="tag">gates</span><span class="tag">feathers</span></span>
+            </li>
+            <li class="build-item" data-profession="mesmer necromancer" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Me/N Chkkr Brightclaw Farmer HM</a>
+                <span class="tags"><span class="tag">ascalon</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Monk</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="monk assassin" data-location="jaga" data-drops="dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Mo/A 55hp Vaettir Farmer</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="monk any" data-location="uw fow" data-drops="ecto shards" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:Mo/any 55hp Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">fow</span><span class="tag">guide</span></span>
+            </li>
+            <li class="build-item" data-profession="monk elementalist" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Mo/E Pre-Searing Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span></span>
+            </li>
+            <li class="build-item" data-profession="monk mesmer" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Mo/Me 55hp Dragon Moss Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="monk warrior" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Mo/W 105hp Halcyon Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Necromancer</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="necromancer assassin" data-location="gates" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:N/A Raisu Palace Boss Farmer</a>
+                <span class="tags"><span class="tag">gates</span><span class="tag">weapons</span></span>
+            </li>
+            <li class="build-item" data-profession="necromancer assassin" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:N/A Zelnehlun Fastfoot Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="necromancer mesmer" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:N/Me Superb Charr Carving Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span><span class="tag">weapons</span></span>
+            </li>
+            <li class="build-item" data-profession="necromancer monk" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:N/Mo 105hp Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="necromancer monk" data-location="fow" data-drops="shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:N/Mo 55hp Boss Farmer</a>
+                <span class="tags"><span class="tag">fow</span><span class="tag">shards</span></span>
+            </li>
+            <li class="build-item" data-profession="necromancer warrior" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:N/W Raptor Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Paragon</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="paragon any" data-location="gates uw ascalon" data-drops="" data-team-size="team" data-format="guide">
+                <a class="build-link" href="#">Build:P/any Farming Speed Boost Hero</a>
+                <span class="tags"><span class="tag">guide</span><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="paragon monk" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:P/Mo Dead Sword Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Ranger</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="ranger assassin" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/A Mantid Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger assassin" data-location="gates" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/A Moddok Crevice Corsair Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger assassin" data-location="gates" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/A Whirling Defense City Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger assassin" data-location="gates" data-drops="dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/A Whirling Defense Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger any" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/any Temple Guardian Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger dervish" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/D Escape Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger mesmer" data-location="jaga" data-drops="dust" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/Me Vaettir Farmer</a>
+                <span class="tags"><span class="tag">jaga</span><span class="tag">dust</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger necromancer" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/N HM Stygian Veil Trapper</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger necromancer" data-location="gates" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/N Lacerate Outcast Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ranger warrior" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:R/W Pre-Searing Charr Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Ritualist</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="ritualist assassin" data-location="gates" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Rt/A Totem Axe Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="ritualist any" data-location="uw fow gates" data-drops="ecto dust shards" data-team-size="solo" data-format="guide">
+                <a class="build-link" href="#">Build:Rt/any Signet of Spirits Farmer</a>
+                <span class="tags"><span class="tag">guide</span></span>
+            </li>
+            <li class="build-item" data-profession="ritualist mesmer" data-location="gates" data-drops="feathers" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Rt/Me Reed Stalker ToA Farmer</a>
+                <span class="tags"><span class="tag">gates</span><span class="tag">feathers</span></span>
+            </li>
+            <li class="build-item" data-profession="ritualist monk" data-location="uw fow" data-drops="ecto shards" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Rt/Mo 105hp Vengeful Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">fow</span></span>
+            </li>
+            <li class="build-item" data-profession="ritualist monk" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:Rt/Mo 330hp Vengeful Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Team</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="team" data-location="ascalon" data-drops="weapons" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 1 Hero EoE Raptor Farmers</a>
+                <span class="tags"><span class="tag">team</span><span class="tag">ascalon</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="fow" data-drops="shards" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 2 Man FoW Farm</a>
+                <span class="tags"><span class="tag">team</span><span class="tag">fow</span><span class="tag">shards</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="uw fow" data-drops="ecto shards" data-team-size="team" data-format="guide">
+                <a class="build-link" href="#">Build:Team - 2 Man Spirit Farmer</a>
+                <span class="tags"><span class="tag">team</span><span class="tag">guide</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 3 Hero AFK Pet Death Level</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 3 Man Plant Fiber Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="weapons" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 7 Hero AFK Gemstone Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 7 Hero AFK Glint's Challenge Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 7 Hero AFK Survivor Title Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 7 Hero Casual AFK Survivor Title Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - 7 Hero Speedbooking</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - Balthazar FFF Zaishen Trappers</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="weapons" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - Halloween Skele Fast Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - MQSC Luxon FFF Dervway</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="uw" data-drops="ecto" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - UW 600 Duo</a>
+                <span class="tags"><span class="tag">team</span><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="team" data-location="gates" data-drops="weapons" data-team-size="team" data-format="individual">
+                <a class="build-link" href="#">Build:Team - Voltaic Spear Farm</a>
+                <span class="tags"><span class="tag">team</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="profession-group">
+        <h2>Warrior</h2>
+        <ul class="build-list">
+            <li class="build-item" data-profession="warrior dervish" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:W/D Seven Weapons Stance Scythe Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="warrior mesmer" data-location="uw" data-drops="ecto" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:W/Me Hundred Blades UW Farmer</a>
+                <span class="tags"><span class="tag">uw</span><span class="tag">ecto</span></span>
+            </li>
+            <li class="build-item" data-profession="warrior monk" data-location="gates" data-drops="granite" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:W/Mo Gates of Kryta Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="warrior necromancer" data-location="gates" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:W/N Hundred Blades MoP Farmer</a>
+                <span class="tags"><span class="tag">gates</span></span>
+            </li>
+            <li class="build-item" data-profession="warrior necromancer" data-location="ascalon" data-drops="weapons" data-team-size="solo" data-format="individual">
+                <a class="build-link" href="#">Build:W/N Raptor Farmer</a>
+                <span class="tags"><span class="tag">ascalon</span></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Handle Dropdown Toggle
+    document.addEventListener('click', function(e) {
+        const isDropdownBtn = e.target.matches('.dropdown-btn');
+        if (!isDropdownBtn && e.target.closest('.dropdown-content') != null) return;
+        
+        // Exclude the clear button from toggling logic
+        if (e.target.id === 'clear-filters') return;
+
+        let currentDropdown;
+        if (isDropdownBtn) {
+            currentDropdown = e.target.closest('.dropdown');
+            currentDropdown.classList.toggle('open');
+        }
+
+        // Close others
+        document.querySelectorAll('.dropdown.open').forEach(dropdown => {
+            if (dropdown !== currentDropdown) {
+                dropdown.classList.remove('open');
+            }
+        });
+    });
+
+    // Handle Filtering Logic
+    const checkboxes = document.querySelectorAll('.dropdown-content input[type="checkbox"]');
+    const buildItems = document.querySelectorAll('.build-item');
+    const professionGroups = document.querySelectorAll('.profession-group');
+    const clearBtn = document.getElementById('clear-filters');
+
+    function filterBuilds() {
+        // Gather selected filters
+        const activeFilters = {};
+        document.querySelectorAll('.dropdown').forEach(group => {
+            const category = group.getAttribute('data-category');
+            const checked = Array.from(group.querySelectorAll('input:checked')).map(cb => cb.value);
+            if (checked.length > 0) {
+                activeFilters[category] = checked;
+            }
+        });
+
+        // Apply filters to build items
+        buildItems.forEach(item => {
+            let isMatch = true;
+            for (const [category, selectedValues] of Object.entries(activeFilters)) {
+                const itemValues = (item.getAttribute(`data-${category}`) || "").split(" ");
+                const hasCategoryMatch = selectedValues.some(val => itemValues.includes(val));
+                
+                if (!hasCategoryMatch) {
+                    isMatch = false;
+                    break;
+                }
+            }
+            if (isMatch) item.classList.remove('hidden');
+            else item.classList.add('hidden');
+        });
+
+        // Hide profession headers if all their builds are hidden
+        professionGroups.forEach(group => {
+            const visibleBuilds = group.querySelectorAll('.build-item:not(.hidden)');
+            if (visibleBuilds.length === 0) {
+                group.classList.add('hidden');
+            } else {
+                group.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Clear Filters Functionality
+    clearBtn.addEventListener('click', () => {
+        checkboxes.forEach(cb => cb.checked = false);
+        filterBuilds();
+    });
+
+    checkboxes.forEach(cb => cb.addEventListener('change', filterBuilds));
+</script>
+
+</body>
+</html>
