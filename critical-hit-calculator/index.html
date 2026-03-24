@@ -309,8 +309,12 @@
             });
             let skillMultiplier = 1 + (skillBonusSumPercent / 100);
 
-            // --- 5. Calculate Final Total Crit Chance (Multiplicative) ---
-            let totalCritChancePercent = baseCritChancePercent * skillMultiplier;
+			// --- 5. Calculate Final Total Crit Chance (Independent Probabilities) ---
+            let baseCritDec = baseCritChancePercent / 100;
+            let skillBonusDec = skillBonusSumPercent / 100;
+            
+            let totalCritChancePercent = (1 - ((1 - baseCritDec) * (1 - skillBonusDec))) * 100;
+
             if (totalCritChancePercent > 100) totalCritChancePercent = 100;
 
             // --- 6. Display Results ---
