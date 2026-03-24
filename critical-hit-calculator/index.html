@@ -129,6 +129,8 @@
         .result-item { margin-bottom: 15px; font-size: 1.1em; }
         .result-val { font-size: 1.4em; font-weight: bold; color: #fff; }
         .result-desc { font-size: 0.9em; color: #aaa; margin-top: 5px; display: block;}
+        
+        .avg-highlight { color: #4CAF50; }
 
         .references {
             margin-top: 50px;
@@ -160,7 +162,10 @@
             <option value="scythe">Scythe (Lower Multiplier)</option>
         </select>
 
-        <label for="maxWeaponDamage">Max Weapon Damage (Base Requirement Met)</label>
+        <label for="minWeaponDamage">Min Weapon Damage</label>
+        <input type="number" id="minWeaponDamage" value="6" placeholder="e.g., 6 for max axe">
+
+        <label for="maxWeaponDamage">Max Weapon Damage</label>
         <input type="number" id="maxWeaponDamage" value="28" placeholder="e.g., 28 for max axe">
     </div>
 
@@ -191,7 +196,7 @@
     </div>
 
     <div class="group" id="bonusesGroup">
-        <div class="panel-header">Critical Chance Bonus Stacks (Multiplicative)</div>
+        <div class="panel-header">Critical Chance Bonus Stacks (Independent)</div>
         <div id="bonusContainer">
             <div class="bonus-stack">
                 <input type="number" class="bonus-val" placeholder="+% Bonus" value="15">
@@ -215,13 +220,25 @@
         <div class="result-item">
             <label>Total Critical Hit Chance:</label>
             <span class="result-val" id="resChance"></span><span class="result-val">%</span>
-            <span class="result-desc">Calculated as: Base Crit × (1 + Σ Skill Bonuses)</span>
+            <span class="result-desc">Calculated via independent probabilities: 1 - ((1 - Base) × (1 - Skills))</span>
+        </div>
+        
+        <div class="result-item">
+            <label>Average Normal Hit Damage:</label>
+            <span class="result-val" id="resNormalDamage"></span>
+            <span class="result-desc">Median weapon damage scaled by Weapon Mastery</span>
         </div>
 
         <div class="result-item">
             <label>Critical Hit Damage (Max):</label>
             <span class="result-val" id="resDamage"></span>
             <span class="result-desc" id="resDamageDesc"></span>
+        </div>
+        
+        <div class="result-item" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #444;">
+            <label style="color: #4CAF50;">Average Damage per Hit:</label>
+            <span class="result-val avg-highlight" id="resAvgDamage"></span>
+            <span class="result-desc">Calculated as: (Crit Chance × Crit Damage) + (Normal Chance × Average Normal Damage)</span>
         </div>
     </div>
 
@@ -250,6 +267,7 @@
 
         function calculate() {
             const weaponType = document.getElementById('weaponType').value;
+            let minDamage = parseFloat(document.getElementById('minWeaponDamage').value) || 0;
             let maxDamage = parseFloat(document.getElementById('maxWeaponDamage').value) || 0;
             const charLevel = parseInt(document.getElementById('charLevel').value) || 0;
             const attrLevel = parseInt(document.getElementById('attrLevel').value) || 0;
@@ -260,12 +278,15 @@
 
             // Apply Customization Bonus (20% increase)
             if (isCustomized) {
+                minDamage = minDamage * 1.2;
                 maxDamage = maxDamage * 1.2;
             }
 
             // Apply Inherent Modifier (multiplicative with customization)
             if (inherentMod > 0) {
-                maxDamage = maxDamage * (1 + (inherentMod / 100));
+                let modMultiplier = 1 + (inherentMod / 100);
+                minDamage = minDamage * modMultiplier;
+                maxDamage = maxDamage * modMultiplier;
             }
 
             // --- 1. Calculate Base Strike Level ---
@@ -278,14 +299,18 @@
                 strikeLevel = (attrThreshold * 5) + ((attrLevel - attrThreshold) * 2);
             }
 
-            // --- 2. Calculate Final Critical Damage ---
+            // --- 2. Calculate Damage Values ---
+            let averageBaseDamage = (minDamage + maxDamage) / 2;
+            let normalDamage = averageBaseDamage * Math.pow(2, ((strikeLevel - targetArmor) / 40));
+            
             let critDamage = 0;
             let damageDesc = "";
 
             if (weaponType === 'scythe') {
-                let baseDamage = maxDamage * Math.pow(2, ((strikeLevel - targetArmor) / 40));
-                critDamage = baseDamage * 1.09;
-                damageDesc = "Scythe Crit: Standard damage calculation × 1.09";
+                // Scythe crits use max damage but with a lower multiplier instead of +20 Strike Level
+                let baseScytheMaxHit = maxDamage * Math.pow(2, ((strikeLevel - targetArmor) / 40));
+                critDamage = baseScytheMaxHit * 1.09;
+                damageDesc = "Scythe Crit: Standard max damage calculation × 1.09";
             } else {
                 let effectiveStrikeLevel = strikeLevel + 20;
                 critDamage = maxDamage * Math.pow(2, ((effectiveStrikeLevel - targetArmor) / 40));
@@ -307,22 +332,31 @@
             bonusInputs.forEach(input => {
                 skillBonusSumPercent += parseFloat(input.value) || 0;
             });
-            let skillMultiplier = 1 + (skillBonusSumPercent / 100);
 
-			// --- 5. Calculate Final Total Crit Chance (Independent Probabilities) ---
+            // --- 5. Calculate Final Total Crit Chance (Independent Probabilities) ---
             let baseCritDec = baseCritChancePercent / 100;
             let skillBonusDec = skillBonusSumPercent / 100;
             
-            let totalCritChancePercent = (1 - ((1 - baseCritDec) * (1 - skillBonusDec))) * 100;
+            let totalCritChanceDec = 1 - ((1 - baseCritDec) * (1 - skillBonusDec));
+            
+            // Cap at bounds
+            if (totalCritChanceDec > 1) totalCritChanceDec = 1;
+            if (totalCritChanceDec < 0) totalCritChanceDec = 0;
+            
+            let totalCritChancePercent = totalCritChanceDec * 100;
 
-            if (totalCritChancePercent > 100) totalCritChancePercent = 100;
+            // --- 6. Calculate Average Damage ---
+            let normalHitChanceDec = 1 - totalCritChanceDec;
+            let avgDamage = (totalCritChanceDec * critDamage) + (normalHitChanceDec * normalDamage);
 
-            // --- 6. Display Results ---
+            // --- 7. Display Results ---
+            document.getElementById('resChance').innerText = totalCritChancePercent.toFixed(2);
+            document.getElementById('resNormalDamage').innerText = normalDamage.toFixed(2);
             document.getElementById('resDamage').innerText = critDamage.toFixed(2);
             document.getElementById('resDamageDesc').innerText = damageDesc;
-            document.getElementById('resChance').innerText = totalCritChancePercent.toFixed(2);
-            document.getElementById('results').style.display = 'block';
+            document.getElementById('resAvgDamage').innerText = avgDamage.toFixed(2);
             
+            document.getElementById('results').style.display = 'block';
             document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
