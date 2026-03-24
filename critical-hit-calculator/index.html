@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GW1 Critical Hit Calculator (Dark Theme)</title>
+    <style>
+        /* Modern Dark Theme CSS */
+        body { 
+            font-family: 'Roboto', Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: auto; 
+            background-color: #1e1e1e;
+            color: #f0f0f0; 
+        }
+        
+        .back-link {
+            margin-bottom: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .back-link a {
+            color: #00bcd4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        h2 { text-align: center; color: #f0f0f0; margin-bottom: 30px; }
+        h3 { color: #f0f0f0; margin-top: 0; }
+
+        .group { 
+            margin-bottom: 20px; 
+            padding: 20px; 
+            background-color: #2d2d2d; 
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .panel-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00bcd4; 
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #ccc; }
+        
+        input[type="number"], select { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            box-sizing: border-box; 
+            background-color: #1a1a1a; 
+            color: #f0f0f0; 
+            border: 1px solid #555; 
+            border-radius: 4px; 
+        }
+        input[type="number"]:focus, select:focus { outline: 2px solid #00bcd4; border-color: #00bcd4; }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0 10px 0 0;
+            cursor: pointer;
+        }
+        .checkbox-container label {
+            margin: 0;
+            color: #ccc;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bonus-stack { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 10px; 
+            align-items: center;
+            background-color: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+        }
+        .bonus-stack input { margin-bottom: 0; }
+
+        button { 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            background: #0078D7; 
+            color: #fff; 
+            border: none; 
+            border-radius: 4px; 
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover { background: #005A9E; }
+        
+        #addBonusBtn { background-color: #333; border: 1px solid #555; }
+        #addBonusBtn:hover { background-color: #444; }
+
+        .remove-btn { background: #D13438; padding: 10px 15px; } 
+        .remove-btn:hover { background: #A80000; }
+
+        .calculate-btn-container { text-align: center; margin-top: 20px; }
+        .calculate-btn { background-color: #4CAF50; font-size: 1.2em; padding: 15px 30px; } 
+        .calculate-btn:hover { background-color: #45a049; }
+
+        .results { 
+            background-color: #1a1a1a; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-top: 30px; 
+            border: 2px solid #00bcd4; 
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+        }
+        .results h3 { color: #00bcd4; text-align: center; margin-bottom: 20px;}
+        .result-item { margin-bottom: 15px; font-size: 1.1em; }
+        .result-val { font-size: 1.4em; font-weight: bold; color: #fff; }
+        .result-desc { font-size: 0.9em; color: #aaa; margin-top: 5px; display: block;}
+
+        .references {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #444;
+            font-size: 0.85em;
+            color: #aaa;
+        }
+        .references h4 { color: #ccc; margin-top: 0; }
+        .references ul { padding-left: 20px; }
+        .references li { margin-bottom: 8px; }
+        .references a { color: #00bcd4; text-decoration: none; }
+        .references a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="back-link">
+        <a href="../index.html">&larr; Back to Guild Wars Tools</a>
+    </div>
+
+    <h2>Guild Wars 1 Critical Hit Calculator</h2>
+
+    <div class="group">
+        <div class="panel-header">Attacker Statistics</div>
+        <label for="weaponType">Weapon Type</label>
+        <select id="weaponType">
+            <option value="standard">Standard Martial Weapon</option>
+            <option value="scythe">Scythe (Lower Multiplier)</option>
+        </select>
+
+        <label for="maxWeaponDamage">Max Weapon Damage (Base Requirement Met)</label>
+        <input type="number" id="maxWeaponDamage" value="28" placeholder="e.g., 28 for max axe">
+    </div>
+
+    <div class="group">
+        <div class="panel-header">Character Attributes</div>
+        <label for="charLevel">Character Level (1-20)</label>
+        <input type="number" id="charLevel" value="20" min="1" max="20">
+
+        <label for="attrLevel">Weapon Mastery Attribute Level</label>
+        <input type="number" id="attrLevel" value="12" min="0" max="20" placeholder="e.g., 15 Axe Mastery">
+
+        <label for="inherentMod">Inherent Damage Modifier (%)</label>
+        <input type="number" id="inherentMod" value="15" min="0" placeholder="e.g., 15 for +15% damage">
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="isCustomized" checked>
+            <label for="isCustomized">Weapon is Customized (+20% Damage)</label>
+        </div>
+    </div>
+
+    <div class="group">
+        <div class="panel-header">Target Statistics</div>
+        <label for="targetLevel">Target Level</label>
+        <input type="number" id="targetLevel" value="20" min="1">
+
+        <label for="targetArmor">Target Armor Rating (AL)</label>
+        <input type="number" id="targetArmor" value="60" min="0" placeholder="e.g., 60 for standard caster">
+    </div>
+
+    <div class="group" id="bonusesGroup">
+        <div class="panel-header">Critical Chance Bonus Stacks (Multiplicative)</div>
+        <div id="bonusContainer">
+            <div class="bonus-stack">
+                <input type="number" class="bonus-val" placeholder="+% Bonus" value="15">
+                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            </div>
+             <div class="bonus-stack">
+                <input type="number" class="bonus-val" placeholder="+% Bonus" value="33">
+                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            </div>
+        </div>
+        <button id="addBonusBtn" onclick="addBonus()">+ Add Bonus Stack</button>
+    </div>
+
+    <div class="calculate-btn-container">
+        <button class="calculate-btn" onclick="calculate()">CALCULATE</button>
+    </div>
+
+    <div class="results" id="results" style="display: none;">
+        <h3>Calculation Results</h3>
+        
+        <div class="result-item">
+            <label>Total Critical Hit Chance:</label>
+            <span class="result-val" id="resChance"></span><span class="result-val">%</span>
+            <span class="result-desc">Calculated as: Base Crit × (1 + Σ Skill Bonuses)</span>
+        </div>
+
+        <div class="result-item">
+            <label>Critical Hit Damage (Max):</label>
+            <span class="result-val" id="resDamage"></span>
+            <span class="result-desc" id="resDamageDesc"></span>
+        </div>
+    </div>
+
+    <div class="references">
+        <h4>References & Formula Sources</h4>
+        <ul>
+            <li><a href="https://wiki.guildwars.com/wiki/Damage_calculation" target="_blank">GW1 Wiki: Damage Calculation</a> - Formulas for Strike Level and Armor mitigation.</li>
+            <li><a href="https://wiki.guildwars.com/wiki/Critical_hit" target="_blank">GW1 Wiki: Critical Hit</a> - Skill interactions and Scythe multipliers.</li>
+            <li><a href="https://wiki.guildwars.com/index.php?title=User_talk:Isaiah_Cartwright&diff=prev&oldid=1345890" target="_blank">User Talk: Isaiah Cartwright</a> - Original developer documentation of the base probability formula.</li>
+            <li><a href="https://www.reddit.com/r/GuildWars/comments/h7epe5/critical_hit_probability_calculation/" target="_blank">Reddit: Critical Hit Probability Calculation</a> - Community discussion verifying the formula mechanics.</li>
+            <li><a href="https://web.archive.org/web/20140905174231/http://www.guildwarsguru.com/forum/showpost.php?p=4993598&postcount=21" target="_blank">GW Guru Archive (Chthon)</a> - Correction of the `0.05` to `0.5` typo in the original base formula.</li>
+        </ul>
+    </div>
+
+    <script>
+        function addBonus() {
+            const container = document.getElementById('bonusContainer');
+            const div = document.createElement('div');
+            div.className = 'bonus-stack';
+            div.innerHTML = `
+                <input type="number" class="bonus-val" placeholder="+% Bonus" value="10">
+                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function calculate() {
+            const weaponType = document.getElementById('weaponType').value;
+            let maxDamage = parseFloat(document.getElementById('maxWeaponDamage').value) || 0;
+            const charLevel = parseInt(document.getElementById('charLevel').value) || 0;
+            const attrLevel = parseInt(document.getElementById('attrLevel').value) || 0;
+            const inherentMod = parseFloat(document.getElementById('inherentMod').value) || 0;
+            const isCustomized = document.getElementById('isCustomized').checked;
+            const targetLevel = parseInt(document.getElementById('targetLevel').value) || 0;
+            const targetArmor = parseInt(document.getElementById('targetArmor').value) || 0;
+
+            // Apply Customization Bonus (20% increase)
+            if (isCustomized) {
+                maxDamage = maxDamage * 1.2;
+            }
+
+            // Apply Inherent Modifier (multiplicative with customization)
+            if (inherentMod > 0) {
+                maxDamage = maxDamage * (1 + (inherentMod / 100));
+            }
+
+            // --- 1. Calculate Base Strike Level ---
+            const attrThreshold = Math.floor(charLevel / 2) + 2;
+            let strikeLevel = 0;
+            
+            if (attrLevel <= attrThreshold) {
+                strikeLevel = attrLevel * 5;
+            } else {
+                strikeLevel = (attrThreshold * 5) + ((attrLevel - attrThreshold) * 2);
+            }
+
+            // --- 2. Calculate Final Critical Damage ---
+            let critDamage = 0;
+            let damageDesc = "";
+
+            if (weaponType === 'scythe') {
+                let baseDamage = maxDamage * Math.pow(2, ((strikeLevel - targetArmor) / 40));
+                critDamage = baseDamage * 1.09;
+                damageDesc = "Scythe Crit: Standard damage calculation × 1.09";
+            } else {
+                let effectiveStrikeLevel = strikeLevel + 20;
+                critDamage = maxDamage * Math.pow(2, ((effectiveStrikeLevel - targetArmor) / 40));
+                damageDesc = "Standard Crit: +20 to Strike Level (Armor Penetration effect)";
+            }
+
+            // --- 3. Calculate Base Critical Chance ---
+            let A = 0.01 * attrLevel;
+            let D = Math.min(attrLevel, Math.floor((charLevel + 4) / 2));
+            let exponent = ((8 * charLevel) + (4 * attrLevel) + (6 * D) - (15 * targetLevel) - 100) / 40;
+            let B = (1 - A) * 0.5 * Math.pow(2, exponent);
+            
+            let baseCritChancePercent = (A + B) * 100;
+            if (baseCritChancePercent < 0) baseCritChancePercent = 0;
+
+            // --- 4. Sum Skill Bonuses (Additive) ---
+            const bonusInputs = document.querySelectorAll('.bonus-val');
+            let skillBonusSumPercent = 0;
+            bonusInputs.forEach(input => {
+                skillBonusSumPercent += parseFloat(input.value) || 0;
+            });
+            let skillMultiplier = 1 + (skillBonusSumPercent / 100);
+
+            // --- 5. Calculate Final Total Crit Chance (Multiplicative) ---
+            let totalCritChancePercent = baseCritChancePercent * skillMultiplier;
+            if (totalCritChancePercent > 100) totalCritChancePercent = 100;
+
+            // --- 6. Display Results ---
+            document.getElementById('resDamage').innerText = critDamage.toFixed(2);
+            document.getElementById('resDamageDesc').innerText = damageDesc;
+            document.getElementById('resChance').innerText = totalCritChancePercent.toFixed(2);
+            document.getElementById('results').style.display = 'block';
+            
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
