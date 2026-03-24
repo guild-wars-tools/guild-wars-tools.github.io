@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Guild Wars: Reforged - PvXwiki Build Generator</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            line-height: 1.6; 
+            background-color: #121212; 
+            color: #e0e0e0; 
+        }
+        h1, h2, h3 { 
+            color: #ffffff; 
+            border-bottom: 2px solid #444; 
+            padding-bottom: 10px; 
+            margin-bottom: 15px; 
+        }
+        section, #manual-build-core { 
+            background: #1e1e1e; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+            border: 1px solid #333;
+        }
+        a { color: #64b5f6; text-decoration: none; font-weight: bold; }
+        a:hover { color: #90caf9; text-decoration: underline; }
+        
+        /* Form Elements */
+        input[type="text"], input[type="number"], select, textarea {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 6px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        input::placeholder, textarea::placeholder { color: #888; }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #64b5f6;
+            box-shadow: 0 0 4px rgba(100, 181, 246, 0.5);
+        }
+
+        /* Standard Buttons */
+        button {
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #444; }
+
+        /* Specific Action Buttons */
+        #decode-btn { background-color: #1565c0; color: #fff; border: none; padding: 6px 15px; }
+        #decode-btn:hover { background-color: #0d47a1; }
+        #generate-btn { background-color: #2e7d32; color: white; border: none; padding: 10px 20px; font-weight: bold; }
+        #generate-btn:hover { background-color: #1b5e20; }
+        #reset-btn { background-color: #c62828; color: white; border: none; padding: 10px 20px; font-weight: bold; margin-left: 10px; }
+        #reset-btn:hover { background-color: #b71c1c; }
+        #copy-btn { background-color: #e65100; color: white; border: none; padding: 10px 20px; font-weight: bold; margin-left: 10px; }
+        #copy-btn:hover { background-color: #bf360c; }
+
+        /* Layout Grids */
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+        .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
+        .attr-box { display: flex; flex-direction: column; font-size: 0.9em; }
+        .attr-box input { width: 50px; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <a href="../index.html">&larr; Back to Guild Wars Tools</a>
+    </div>
+    
+    <h1>Guild Wars: Reforged - PvXwiki Generator</h1>
+
+    <section id="decode-section">
+        <label for="template-code" style="font-weight: bold;">Skill Template Code:</label>
+        <input type="text" id="template-code" placeholder="Enter code here or build manually below..." style="width: 300px; margin-right: 10px;">
+        <button id="decode-btn">Decode</button>
+        <div style="font-size: 0.85em; color: #aaa; margin-top: 5px;">(Editing the build below will automatically generate a new code here)</div>
+    </section>
+    
+    <section id="meta-section">
+        <label for="build-name" style="font-weight: bold;">Build Name:</label><br>
+        <input type="text" id="build-name" placeholder="e.g., A/any Wastrel's Collapse Daggers" style="width: 100%; max-width: 400px; margin-bottom: 15px;"><br>
+        
+        <label for="build-desc" style="font-weight: bold;">Description:</label><br>
+        <textarea id="build-desc" rows="4" style="width: 100%; max-width: 800px;" placeholder="Write the main description of the build..."></textarea>
+    </section>
+    
+    <div id="manual-build-core">
+        <div style="margin-bottom: 20px;">
+            <strong>Primary Profession:</strong>
+            <select id="primary-prof-select" style="margin-right: 15px;"></select>
+            
+            <strong>Secondary Profession:</strong>
+            <select id="secondary-prof-select"></select>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <strong>Attributes:</strong> <span id="attr-points-tally" style="font-weight: normal; font-size: 0.9em; margin-left: 10px; color: #aaa;">(0 / 200 Points)</span>
+            <div id="attributes-inputs-container" class="grid-6">
+                </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <strong>Skills:</strong>
+            <div id="skills-inputs-container" class="grid-4">
+                </div>
+        </div>
+        
+        <div>
+            <strong>Optional Skills:</strong>
+            <div id="optional-skills-container" style="margin-top: 10px;"></div>
+            <button id="add-optional-skill-btn" style="margin-top: 10px;">+ Add Optional Skill</button>
+            <datalist id="all-skills-datalist"></datalist>
+        </div>
+    </div>
+
+    <section id="armor-section">
+        <h3>Equipment: Armor Sets</h3>
+        <div id="armor-forms"></div>
+    </section>
+
+    <section id="weapon-section">
+        <h3>Equipment: Weapon Sets</h3>
+        <div id="weapon-forms"></div>
+    </section>
+    
+    <section id="documentation-section">
+        <div style="margin-bottom: 15px;">
+            <label for="build-usage" style="font-weight: bold;">Usage:</label><br>
+            <textarea id="build-usage" rows="4" style="width: 100%; max-width: 800px; margin-top: 5px;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="build-counters" style="font-weight: bold;">Counters:</label><br>
+            <textarea id="build-counters" rows="4" style="width: 100%; max-width: 800px; margin-top: 5px;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="build-notes" style="font-weight: bold;">Notes:</label><br>
+            <textarea id="build-notes" rows="3" style="width: 100%; max-width: 800px; margin-top: 5px;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="build-see-also" style="font-weight: bold;">See Also:</label><br>
+            <textarea id="build-see-also" rows="3" style="width: 100%; max-width: 800px; margin-top: 5px;" placeholder="* [[w:Link|Text]]"></textarea>
+        </div>
+    </section>
+
+    <section id="output-section">
+        <div style="margin-bottom: 15px;">
+            <button id="generate-btn">Generate MediaWiki Code</button>
+            <button id="reset-btn">Reset Build</button>
+        </div>
+        
+        <textarea id="output" rows="20" style="width: 100%; font-family: monospace;" placeholder="Your PvX MediaWiki code will appear here..."></textarea>
+    </section>
+
+    <script src="decoder.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
