@@ -9,7 +9,7 @@
         body { 
             font-family: 'Roboto', Arial, sans-serif; 
             padding: 20px; 
-            max-width: 1000px; /* Widened slightly to fit 4 columns comfortably */
+            max-width: 1000px; 
             margin: auto; 
             background-color: #1e1e1e;
             color: #f0f0f0; 
@@ -72,9 +72,11 @@
         .remove-btn { background: #D13438; padding: 10px 15px; } 
         .remove-btn:hover { background: #A80000; }
 
-        .calculate-btn-container { text-align: center; margin-top: 20px; margin-bottom: 30px;}
+        .action-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 20px; margin-bottom: 30px; }
         .calculate-btn { background-color: #4CAF50; font-size: 1.2em; padding: 15px 40px; width: 100%; max-width: 400px;} 
         .calculate-btn:hover { background-color: #45a049; }
+        .reset-btn { background-color: #555; font-size: 1.2em; padding: 15px 40px; }
+        .reset-btn:hover { background-color: #777; }
 
         .results { 
             background-color: #1a1a1a; padding: 20px; border-radius: 8px; 
@@ -156,11 +158,11 @@
             <input type="number" id="targetArmor" value="60">
         </div>
 
-        <div class="group full-width" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 0; background: none; border: none; box-shadow: none;">
+        <div class="group full-width" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; padding: 0; background: none; border: none; box-shadow: none;">
             
             <div class="group" style="margin: 0;">
                 <div class="panel-header">Damage Multipliers (%)</div>
-                <span class="desc">E.g., Customized (+20%), Inscription (+15%), Slaying (+20%).</span>
+                <span class="desc">E.g., Customized (+20%), Slaying (+20%).</span>
                 <div id="dmgModContainer">
                     <div class="bonus-stack">
                         <input type="number" class="stack-val" placeholder="Dmg %" value="20" title="Customized">
@@ -176,21 +178,28 @@
 
             <div class="group" style="margin: 0;">
                 <div class="panel-header">Crit Chance Bonus (%)</div>
-                <span class="desc">Calculated via independent probabilities.</span>
+                <span class="desc">Independent probability.</span>
                 <div id="critContainer"></div>
                 <button class="add-btn" onclick="addStack('critContainer', 'Crit %')">+ Add Crit Bonus</button>
             </div>
 
             <div class="group" style="margin: 0;">
+                <div class="panel-header">Double Strike Bonus (%)</div>
+                <span class="desc">Stacks additively. Applies to Daggers only.</span>
+                <div id="dsContainer"></div>
+                <button class="add-btn" onclick="addStack('dsContainer', 'DS %')">+ Add DS Bonus</button>
+            </div>
+
+            <div class="group" style="margin: 0;">
                 <div class="panel-header">Armor Penetration (%)</div>
-                <span class="desc">Stacks multiplicatively against target armor.</span>
+                <span class="desc">Stacks multiplicatively.</span>
                 <div id="apContainer"></div>
                 <button class="add-btn" onclick="addStack('apContainer', 'AP %')">+ Add Armor Pen</button>
                 
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #444;">
-                    <label>Sundering Weapon Chance (%)</label>
+                    <label>Sundering Chance (%)</label>
                     <input type="number" id="sunderChance" value="0" style="margin-bottom: 5px;">
-                    <label>Sundering Armor Pen Amount (%)</label>
+                    <label>Sundering AP Amount (%)</label>
                     <input type="number" id="sunderAmount" value="20">
                 </div>
             </div>
@@ -205,8 +214,9 @@
         </div>
     </div>
 
-    <div class="calculate-btn-container">
+    <div class="action-buttons">
         <button class="calculate-btn" onclick="calculate()">CALCULATE DPS & DAMAGE</button>
+        <button class="reset-btn" onclick="resetForm()">RESET ALL</button>
     </div>
 
     <div class="results" id="results" style="display: none;">
@@ -223,7 +233,7 @@
         </div>
 
         <div class="result-item" id="daggerBlock" style="display: none;">
-            <span style="color: #00bcd4;">Dagger Double Strike Chance:</span>
+            <span style="color: #00bcd4;">Total Double Strike Chance:</span>
             <span class="result-val" style="color: #00bcd4;" id="resDoubleStrike"></span>
         </div>
 
@@ -247,12 +257,11 @@
             <li><a href="https://wiki.guildwars.com/wiki/Bow" target="_blank">GW1 Wiki: Bows</a> - Attack rates for specific bow types (e.g., Recurve/Longbow vs. Shortbow/Flatbow) and Hornbow inherent AP.</li>
             <li><a href="https://wiki.guildwars.com/wiki/Daggers" target="_blank">GW1 Wiki: Daggers</a> - Double Strike percentage mechanics based on Dagger Mastery.</li>
             <li><a href="https://wiki.guildwars.com/index.php?title=User_talk:Isaiah_Cartwright&diff=prev&oldid=1345890" target="_blank">User Talk: Isaiah Cartwright</a> - Original developer documentation of the base critical probability formula.</li>
-            <li><a href="https://web.archive.org/web/20140905174231/http://www.guildwarsguru.com/forum/showpost.php?p=4993598&postcount=21" target="_blank">GW Guru Archive (Chthon)</a> - Correction of the `0.05` to `0.5` typo in the original base formula.</li>
+            <li><a href="https://web.archive.org/web/20140905174231/http://www.guildwarsguru.com/forum/showpost.php?p=4993598&postcount=21" target="_blank">GW Guru Archive (Chthon)</a> - Correction of the 0.05 to 0.5 typo in the original base formula.</li>
         </ul>
     </div>
 
     <script>
-        // Preset Weapon Data
         const weapons = {
             sword: { min: 15, max: 22, rate: 1.33 },
             axe: { min: 6, max: 28, rate: 1.33 },
@@ -285,8 +294,37 @@
             container.appendChild(div);
         }
 
+        function resetForm() {
+            document.getElementById('weaponPreset').value = 'sword';
+            applyPreset();
+            document.getElementById('ias').value = '0';
+            document.getElementById('charLevel').value = '20';
+            document.getElementById('attrLevel').value = '12';
+            document.getElementById('targetLevel').value = '20';
+            document.getElementById('targetArmor').value = '60';
+            document.getElementById('sunderChance').value = '0';
+            document.getElementById('sunderAmount').value = '20';
+
+            document.getElementById('dmgModContainer').innerHTML = `
+                <div class="bonus-stack">
+                    <input type="number" class="stack-val" placeholder="Dmg %" value="20" title="Customized">
+                    <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+                </div>
+                <div class="bonus-stack">
+                    <input type="number" class="stack-val" placeholder="Dmg %" value="15" title="Inherent Mod">
+                    <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+                </div>
+            `;
+            
+            document.getElementById('critContainer').innerHTML = '';
+            document.getElementById('dsContainer').innerHTML = '';
+            document.getElementById('apContainer').innerHTML = '';
+            document.getElementById('flatContainer').innerHTML = '';
+
+            document.getElementById('results').style.display = 'none';
+        }
+
         function calculate() {
-            // --- INPUTS ---
             const type = document.getElementById('weaponPreset').value;
             let minDmg = parseFloat(document.getElementById('minDamage').value) || 0;
             let maxDmg = parseFloat(document.getElementById('maxDamage').value) || 0;
@@ -301,11 +339,9 @@
             const sunderChance = (parseFloat(document.getElementById('sunderChance').value) || 0) / 100;
             const sunderAmount = (parseFloat(document.getElementById('sunderAmount').value) || 0) / 100;
 
-            // --- 1. ATTACK SPEED (Capped at +33% / -50%) ---
             const clampedIas = Math.max(-50, Math.min(33, rawIas));
             const attackTime = baseRate * (1 - (clampedIas / 100));
 
-            // --- 2. BASE DAMAGE MULTIPLIERS (Stacked Multiplicatively) ---
             let dmgMultiplier = 1;
             document.querySelectorAll('#dmgModContainer .stack-val').forEach(el => {
                 dmgMultiplier *= (1 + ((parseFloat(el.value) || 0) / 100));
@@ -315,7 +351,6 @@
             maxDmg *= dmgMultiplier;
             const avgBaseDmg = (minDmg + maxDmg) / 2;
 
-            // --- 3. STRIKE LEVEL & CRIT CHANCE (Martial vs Caster) ---
             let strikeLevel = 0;
             let baseCritChanceDec = 0;
 
@@ -333,14 +368,12 @@
                 baseCritChanceDec = Math.max(0, A + B);
             }
 
-            // --- 4. INDEPENDENT CRIT STACKING ---
             let skillCritDec = 0;
             document.querySelectorAll('#critContainer .stack-val').forEach(el => {
                 skillCritDec += (parseFloat(el.value) || 0) / 100;
             });
             let totalCritChanceDec = Math.min(1, Math.max(0, 1 - ((1 - baseCritChanceDec) * (1 - skillCritDec))));
 
-            // --- 5. MULTIPLICATIVE ARMOR PENETRATION ---
             let armorMultiplier = 1;
             if (type === 'hornbow') armorMultiplier *= (1 - 0.10); 
             document.querySelectorAll('#apContainer .stack-val').forEach(el => {
@@ -351,13 +384,11 @@
             const effectiveArmor = targetArmor * armorMultiplier;
             const sunderedArmor = effectiveArmor * (1 - sunderAmount);
 
-            // --- 6. FLAT DAMAGE BONUS ---
             let flatBonus = 0;
             document.querySelectorAll('#flatContainer .stack-val').forEach(el => {
                 flatBonus += (parseFloat(el.value) || 0);
             });
 
-            // --- 7. DAMAGE CALCULATIONS (Helper Function) ---
             function calcHit(armor) {
                 let norm = avgBaseDmg * Math.pow(2, ((strikeLevel - armor) / 40));
                 let crit = 0;
@@ -371,26 +402,28 @@
                 return (totalCritChanceDec * crit) + ((1 - totalCritChanceDec) * norm);
             }
 
-            // Blend Sundered vs Un-Sundered hits
             let avgHitWithoutSunder = calcHit(effectiveArmor);
             let avgHitWithSunder = calcHit(sunderedArmor);
             let finalAvgHit = (sunderChance * avgHitWithSunder) + ((1 - sunderChance) * avgHitWithoutSunder);
             
-            // Add Flat Damage (per hit)
             finalAvgHit += flatBonus;
 
-            // --- 8. DAGGER DOUBLE STRIKE ---
             let doubleStrikeChance = 0;
             if (type === 'dagger') {
-                doubleStrikeChance = Math.min(100, 2 + attrLevel);
+                let bonusDS = 0;
+                document.querySelectorAll('#dsContainer .stack-val').forEach(el => {
+                    bonusDS += (parseFloat(el.value) || 0);
+                });
+                
+                doubleStrikeChance = 2 + attrLevel + bonusDS;
+                doubleStrikeChance = Math.min(100, Math.max(0, doubleStrikeChance));
+                
                 finalAvgHit = finalAvgHit * (1 + (doubleStrikeChance / 100));
             }
 
-            // --- 9. DPS ---
             const dps = finalAvgHit / attackTime;
 
-            // --- DISPLAY ---
-            document.getElementById('resAttackTime').innerText = attackTime.toFixed(2) + " seconds";
+            document.getElementById('resAttackTime').innerText = attackTime.toFixed(3) + " seconds";
             document.getElementById('resCritChance').innerText = (totalCritChanceDec * 100).toFixed(2) + "%";
             
             if (type === 'dagger') {
