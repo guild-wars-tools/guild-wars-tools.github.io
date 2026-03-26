@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="manifest" href="/site.webmanifest">
+    <title>Guild Wars Enchantment Duration Calculator</title>
+    <style>
+        /* Modern Dark Theme CSS */
+        body { 
+            font-family: 'Roboto', Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 900px; 
+            margin: auto; 
+            background-color: #1e1e1e;
+            color: #f0f0f0; 
+        }
+        
+        .back-link { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .back-link a { color: #00bcd4; text-decoration: none; font-weight: bold; }
+        .back-link a:hover { text-decoration: underline; }
+
+        h2 { text-align: center; color: #f0f0f0; margin-bottom: 30px; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .group { 
+            padding: 20px; 
+            background-color: #2d2d2d; 
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .panel-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00bcd4; 
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #ccc; font-size: 0.9em;}
+        .desc { font-size: 0.8em; color: #888; margin-bottom: 10px; display: block; }
+        
+        input[type="number"] { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            box-sizing: border-box; 
+            background-color: #1a1a1a; 
+            color: #f0f0f0; 
+            border: 1px solid #555; 
+            border-radius: 4px; 
+        }
+        input[type="number"]:focus { outline: 2px solid #00bcd4; border-color: #00bcd4; }
+
+        .bonus-stack { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; background-color: #1a1a1a; padding: 10px; border-radius: 4px; border: 1px solid #444; }
+        .bonus-stack input[type="number"] { margin-bottom: 0; flex: 1; }
+        
+        .checkbox-label { display: flex; align-items: center; font-weight: normal; font-size: 0.9em; color: #aaa; cursor: pointer; white-space: nowrap;}
+        .checkbox-label input { width: 16px; height: 16px; margin-right: 8px; cursor: pointer;}
+
+        button { padding: 10px 15px; cursor: pointer; background: #0078D7; color: #fff; border: none; border-radius: 4px; font-weight: bold; transition: background 0.2s; }
+        button:hover { background: #005A9E; }
+        .add-btn { background-color: #333; border: 1px solid #555; font-size: 0.85em; width: 100%; margin-top: 5px;}
+        .add-btn:hover { background-color: #444; }
+        .remove-btn { background: #D13438; padding: 10px 15px; } 
+        .remove-btn:hover { background: #A80000; }
+
+        .action-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 20px; margin-bottom: 30px; }
+        .calculate-btn { background-color: #4CAF50; font-size: 1.2em; padding: 15px 40px; width: 100%; max-width: 400px;} 
+        .calculate-btn:hover { background-color: #45a049; }
+        .reset-btn { background-color: #555; font-size: 1.2em; padding: 15px 40px; }
+        .reset-btn:hover { background-color: #777; }
+
+        .results { 
+            background-color: #1a1a1a; padding: 20px; border-radius: 8px; 
+            border: 2px solid #00bcd4; box-shadow: 0 0 15px rgba(0, 188, 212, 0.4);
+        }
+        .results h3 { color: #00bcd4; text-align: center; margin-bottom: 20px;}
+        
+        .perm-list { display: flex; flex-direction: column; gap: 10px; }
+        .perm-item { 
+            background-color: #2d2d2d; 
+            padding: 15px; 
+            border-left: 5px solid #4CAF50; 
+            border-radius: 4px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .perm-duration { font-size: 1.3em; font-weight: bold; color: #fff; width: 120px; flex-shrink: 0;}
+        .perm-order { font-size: 0.9em; color: #aaa; flex-grow: 1;}
+        .perm-arrow { color: #00bcd4; margin: 0 5px; }
+        
+        .badge { background: #00bcd4; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-left: 4px;}
+
+        .references { margin-top: 50px; padding: 20px; border-top: 1px solid #444; font-size: 0.85em; color: #aaa; background-color: #2d2d2d; border-radius: 8px;}
+        .references h4 { color: #00bcd4; margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .references ul { padding-left: 20px; margin-bottom: 0; }
+        .references li { margin-bottom: 8px; }
+        .references a { color: #00bcd4; text-decoration: none; }
+        .references a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="back-link">
+        <a href="../index.html">&larr; Back to Guild Wars Tools</a>
+    </div>
+
+    <h2>Guild Wars Enchantment Duration Calculator</h2>
+
+    <div class="grid-container">
+        <div class="group">
+            <div class="panel-header">Base Spell Duration</div>
+            <label>Base Duration (Seconds)</label>
+            <span class="desc">The un-modified duration of the enchantment as calculated by your attribute rank.</span>
+            <input type="number" id="baseDuration" value="10" min="1">
+        </div>
+
+        <div class="group">
+            <div class="panel-header">Duration Modifiers (%)</div>
+            <span class="desc">Modifiers are applied sequentially and use "Banker's Rounding" (half-to-even) after each step. Check the box if the modifier comes from an "of Enchanting" weapon to apply the hidden +1s minimum rule.</span>
+            
+            <div id="modContainer">
+                <div class="bonus-stack">
+                    <input type="number" class="mod-val" placeholder="% Bonus/Reduction" value="20">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="mod-is-weapon" checked> Weapon Mod
+                    </label>
+                    <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+                </div>
+            </div>
+            <button class="add-btn" onclick="addMod()">+ Add Modifier Stack</button>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="calculate-btn" onclick="calculate()">CALCULATE PERMUTATIONS</button>
+        <button class="reset-btn" onclick="resetForm()">RESET ALL</button>
+    </div>
+
+    <div class="results" id="results" style="display: none;">
+        <h3>Optimal Application Orders</h3>
+        <span class="desc" style="text-align: center; margin-bottom: 20px;">Ranked from longest resulting duration to shortest. Calculates all possible sequencing combinations automatically.</span>
+        
+        <div id="permutationOutput" class="perm-list">
+            <!-- Results injected here -->
+        </div>
+    </div>
+
+    <div class="references">
+        <h4>References & Formula Sources</h4>
+        <ul>
+            <li><a href="https://wiki.guildwars.com/wiki/Duration" target="_blank">GW Wiki: Duration</a> - General rules for condition, hex, and enchantment scaling.</li>
+            <li><a href="https://wiki.guildwars.com/wiki/Of_Enchanting" target="_blank">GW Wiki: "Of Enchanting" Weapon Mod</a> - Documents the hidden rule where weapon modifications guarantee at least a +1 second duration increase regardless of the percentage math.</li>
+            <li><a href="https://wiki.guildwars.com/wiki/Talk:Blessed_Aura" target="_blank">GW Wiki Talk: Blessed Aura</a> - Community testing and mathematical proof that the game engine uses "Banker's Rounding" (half-to-even) for sequential enchantment duration modifications instead of standard rounding.</li>
+        </ul>
+    </div>
+
+    <script>
+        function addMod() {
+            const container = document.getElementById('modContainer');
+            const div = document.createElement('div');
+            div.className = 'bonus-stack';
+            div.innerHTML = `
+                <input type="number" class="mod-val" placeholder="% Bonus/Reduction" value="15">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="mod-is-weapon"> Weapon Mod
+                </label>
+                <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function resetForm() {
+            document.getElementById('baseDuration').value = '10';
+            document.getElementById('modContainer').innerHTML = `
+                <div class="bonus-stack">
+                    <input type="number" class="mod-val" placeholder="% Bonus/Reduction" value="20">
+                    <label class="checkbox-label">
+                        <input type="checkbox" class="mod-is-weapon" checked> Weapon Mod
+                    </label>
+                    <button class="remove-btn" onclick="this.parentElement.remove()">X</button>
+                </div>
+            `;
+            document.getElementById('results').style.display = 'none';
+        }
+
+        // --- Guild Wars Engine Rule: Banker's Rounding (Half-to-Even) ---
+        function bankersRound(num) {
+            let d = num - Math.floor(num);
+            if (d === 0.5) {
+                // If exactly halfway, round to the nearest EVEN number
+                return (Math.floor(num) % 2 === 0) ? Math.floor(num) : Math.ceil(num);
+            }
+            return Math.round(num); // Otherwise round normally
+        }
+
+        // --- Backtracking Algorithm to find unique permutations ---
+        function getUniquePermutations(arr) {
+            const results = [];
+            const used = new Array(arr.length).fill(false);
+            const current = [];
+
+            // Sort array first so identical modifier objects are adjacent
+            arr.sort((a, b) => b.val - a.val);
+
+            function backtrack() {
+                if (current.length === arr.length) {
+                    results.push([...current]);
+                    return;
+                }
+                for (let i = 0; i < arr.length; i++) {
+                    if (used[i]) continue;
+                    // Skip identical values to prevent duplicate calculation paths
+                    if (i > 0 && arr[i].val === arr[i - 1].val && arr[i].isWep === arr[i - 1].isWep && !used[i - 1]) continue;
+
+                    used[i] = true;
+                    current.push(arr[i]);
+                    backtrack();
+                    used[i] = false;
+                    current.pop();
+                }
+            }
+            backtrack();
+            return results;
+        }
+
+        function calculate() {
+            const baseDuration = parseFloat(document.getElementById('baseDuration').value) || 0;
+            const stackDivs = document.querySelectorAll('#modContainer .bonus-stack');
+            
+            let modifiers = [];
+            stackDivs.forEach(div => {
+                let valInput = div.querySelector('.mod-val');
+                let wepInput = div.querySelector('.mod-is-weapon');
+                let val = parseFloat(valInput.value);
+                
+                if (!isNaN(val)) {
+                    modifiers.push({
+                        val: val,
+                        isWep: wepInput.checked
+                    });
+                }
+            });
+
+            // Prevent browser crashing
+            if (modifiers.length > 8) {
+                alert("Please limit to 8 modifiers maximum to prevent calculation lag.");
+                return;
+            }
+
+            const permutations = getUniquePermutations(modifiers);
+            const analyzedResults = [];
+
+            permutations.forEach(perm => {
+                let currentDuration = baseDuration;
+                
+                // Sequentially apply and round according to GW1 Engine Rules
+                perm.forEach(modObj => {
+                    let unroundedNew = currentDuration * (1 + (modObj.val / 100));
+                    
+                    // Hidden Engine Rule: Weapon Mods that increase duration guarantee a minimum +1 second yield
+                    if (modObj.isWep && modObj.val > 0) {
+                        currentDuration = Math.max(currentDuration + 1, bankersRound(unroundedNew));
+                    } else {
+                        currentDuration = bankersRound(unroundedNew);
+                    }
+                });
+
+                analyzedResults.push({
+                    finalDuration: currentDuration,
+                    sequence: perm
+                });
+            });
+
+            // Sort by longest duration first
+            analyzedResults.sort((a, b) => b.finalDuration - a.finalDuration);
+
+            // Render UI
+            const outputContainer = document.getElementById('permutationOutput');
+            outputContainer.innerHTML = '';
+
+            if (analyzedResults.length === 0) {
+                outputContainer.innerHTML = `
+                    <div class="perm-item">
+                        <span class="perm-duration">${baseDuration} Sec</span>
+                        <span class="perm-order">No modifiers applied.</span>
+                    </div>`;
+            } else {
+                analyzedResults.forEach(result => {
+                    // Create formatted string for the specific order sequence
+                    const seqString = result.sequence.map(modObj => {
+                        let text = modObj.val > 0 ? "+" + modObj.val + "%" : modObj.val + "%";
+                        if (modObj.isWep) text += `<span class="badge">Wep</span>`;
+                        return text;
+                    }).join(' <span class="perm-arrow">&rarr;</span> ');
+                    
+                    const div = document.createElement('div');
+                    div.className = 'perm-item';
+                    
+                    // Dim borders for sub-optimal outcomes
+                    if (result.finalDuration < analyzedResults[0].finalDuration) {
+                        div.style.borderLeftColor = "#f44336"; 
+                    }
+
+                    div.innerHTML = `
+                        <span class="perm-duration">${result.finalDuration} Sec</span>
+                        <span class="perm-order"><strong>Order:</strong> Base <span class="perm-arrow">&rarr;</span> ${seqString}</span>
+                    `;
+                    outputContainer.appendChild(div);
+                });
+            }
+
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
