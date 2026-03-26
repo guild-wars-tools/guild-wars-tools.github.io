@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="manifest" href="/site.webmanifest">
+    <link rel="manifest" href="/site.webmanifest">
     <title>Guild Wars Weapon Damage & DPS Calculator</title>
     <style>
         /* Modern Dark Theme CSS */
@@ -242,8 +242,13 @@
             <span>Average Damage Per Attack:</span>
             <span class="result-val" id="resAvgAttack"></span>
         </div>
+        
+        <div class="result-item highlight" style="margin-top: 0; padding-top: 5px; border-top: none;">
+            <span style="color: #e67e22;">Average Critical Hit Damage:</span>
+            <span class="result-val" style="color: #e67e22;" id="resCritDmg"></span>
+        </div>
 
-        <div class="result-item highlight" style="border-top: none; padding-top: 0; margin-top: 0;">
+        <div class="result-item highlight" style="border-top: none; padding-top: 10px; margin-top: 0;">
             <span style="color: #4CAF50;">AVERAGE DPS (Damage Per Second):</span>
             <span class="result-val primary" id="resDPS"></span>
         </div>
@@ -390,6 +395,7 @@
                 flatBonus += (parseFloat(el.value) || 0);
             });
 
+            // Helper function to return both average damage and the explicit critical value
             function calcHit(armor) {
                 let norm = avgBaseDmg * Math.pow(2, ((strikeLevel - armor) / 40));
                 let crit = 0;
@@ -400,14 +406,21 @@
                 } else {
                     crit = maxDmg * Math.pow(2, (((strikeLevel + 20) - armor) / 40));
                 }
-                return (totalCritChanceDec * crit) + ((1 - totalCritChanceDec) * norm);
+                return {
+                    avgVal: (totalCritChanceDec * crit) + ((1 - totalCritChanceDec) * norm),
+                    critVal: crit
+                };
             }
 
-            let avgHitWithoutSunder = calcHit(effectiveArmor);
-            let avgHitWithSunder = calcHit(sunderedArmor);
-            let finalAvgHit = (sunderChance * avgHitWithSunder) + ((1 - sunderChance) * avgHitWithoutSunder);
+            let hitWithoutSunder = calcHit(effectiveArmor);
+            let hitWithSunder = calcHit(sunderedArmor);
+            
+            // Blend sunder probabilities for the overall average and the critical hit specific value
+            let finalAvgHit = (sunderChance * hitWithSunder.avgVal) + ((1 - sunderChance) * hitWithoutSunder.avgVal);
+            let finalAvgCrit = (sunderChance * hitWithSunder.critVal) + ((1 - sunderChance) * hitWithoutSunder.critVal);
             
             finalAvgHit += flatBonus;
+            finalAvgCrit += flatBonus;
 
             let doubleStrikeChance = 0;
             if (type === 'dagger') {
@@ -419,6 +432,7 @@
                 doubleStrikeChance = 2 + attrLevel + bonusDS;
                 doubleStrikeChance = Math.min(100, Math.max(0, doubleStrikeChance));
                 
+                // Note: Double strike multiplies the average DPS, but a "critical hit" popup in-game represents a single strike, so we don't multiply the crit display by this.
                 finalAvgHit = finalAvgHit * (1 + (doubleStrikeChance / 100));
             }
 
@@ -435,6 +449,7 @@
             }
 
             document.getElementById('resAvgAttack').innerText = finalAvgHit.toFixed(2);
+            document.getElementById('resCritDmg').innerText = finalAvgCrit.toFixed(2);
             document.getElementById('resDPS').innerText = dps.toFixed(2);
             
             document.getElementById('results').style.display = 'block';
