@@ -206,7 +206,7 @@
             </div>
 
             <div class="group" style="margin: 0;">
-                <div class="panel-header">Flat Bonus Damage</div>
+                <div class="panel-header">Bonus Damage/Life-Stealing</div>
                 <span class="desc">Armor-ignoring damage added per hit.</span>
                 <div id="flatContainer"></div>
                 <button class="add-btn" onclick="addStack('flatContainer', 'Flat Dmg')">+ Add Flat Dmg</button>
@@ -252,6 +252,10 @@
             <span style="color: #4CAF50;">AVERAGE DPS (Damage Per Second):</span>
             <span class="result-val primary" id="resDPS"></span>
         </div>
+		
+		<span class="desc" style="text-align: center; margin-top: 15px; font-style: italic;">
+            *Note: The game engine calculates damage using decimals, but rounds to the nearest integer when subtracting from a target's health.
+        </span>
     </div>
 
     <div class="references">
