@@ -196,10 +196,10 @@
             </div>
 
             <div class="group" style="margin: 0;">
-                <div class="panel-header">Armor Penetration (%)</div>
-                <span class="desc">Stacks multiplicatively.</span>
+                <div class="panel-header">Bonus Armor Penetration (%)</div>
+                <span class="desc">Stacks additively (e.g., Judge's Insight).</span>
                 <div id="apContainer"></div>
-                <button class="add-btn" onclick="addStack('apContainer', 'AP %')">+ Add Armor Pen</button>
+                <button class="add-btn" onclick="addStack('apContainer', 'Bonus AP %')">+ Add Bonus AP</button>
                 
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #444;">
                     <label>Sundering Chance (%)</label>
@@ -267,7 +267,7 @@
         <ul>
             <li><a href="https://wiki.guildwars.com/wiki/Damage_calculation" target="_blank">GW Wiki: Damage Calculation</a> - Core formulas for Strike Level, Attribute Thresholds, and Armor mitigation.</li>
             <li><a href="https://wiki.guildwars.com/wiki/Critical_hit" target="_blank">GW Wiki: Critical Hit</a> - Critical hit multipliers, independent probability stacking, and Scythe mechanics.</li>
-            <li><a href="https://wiki.guildwars.com/wiki/Armor_penetration" target="_blank">GW Wiki: Armor Penetration</a> - Multiplicative stacking rules for multiple armor penetration effects.</li>
+            <li><a href="https://wiki.guildwars.com/wiki/Armor_penetration" target="_blank">GW Wiki: Armor Penetration</a> - Base AP (highest value) and Bonus AP (additive stacking) mechanics.</li>
             <li><a href="https://wiki.guildwars.com/wiki/Bow" target="_blank">GW Wiki: Bows</a> - Attack rates for specific bow types (e.g., Recurve/Longbow vs. Shortbow/Flatbow) and Hornbow inherent AP.</li>
             <li><a href="https://wiki.guildwars.com/wiki/Daggers" target="_blank">GW Wiki: Daggers</a> - Double Strike percentage mechanics based on Dagger Mastery.</li>
             <li><a href="https://wiki.guildwars.com/index.php?title=User_talk:Isaiah_Cartwright&diff=prev&oldid=1345890" target="_blank">User Talk: Isaiah Cartwright</a> - Original developer documentation of the base critical probability formula.</li>
@@ -391,25 +391,23 @@
                 skillCritDec += (parseFloat(el.value) || 0) / 100;
             });
             
-            // Apply independent probability logic including the Critical Strikes attribute
             let totalCritChanceDec = Math.min(1, Math.max(0, 1 - ((1 - baseCritChanceDec) * (1 - critStrikesDec) * (1 - skillCritDec))));
 
-            let armorMultiplier = 1;
-            if (type === 'hornbow') armorMultiplier *= (1 - 0.10); 
+            // Apply additive stacking for Bonus AP
+            let totalBonusAp = 0;
+            if (type === 'hornbow') totalBonusAp += 0.10; 
             document.querySelectorAll('#apContainer .stack-val').forEach(el => {
-                let ap = (parseFloat(el.value) || 0) / 100;
-                armorMultiplier *= (1 - ap);
+                totalBonusAp += (parseFloat(el.value) || 0) / 100;
             });
 
-            const effectiveArmor = targetArmor * armorMultiplier;
-            const sunderedArmor = effectiveArmor * (1 - sunderAmount);
+            const effectiveArmor = targetArmor * Math.max(0, 1 - totalBonusAp);
+            const sunderedArmor = targetArmor * Math.max(0, 1 - (totalBonusAp + sunderAmount));
 
             let flatBonus = 0;
             document.querySelectorAll('#flatContainer .stack-val').forEach(el => {
                 flatBonus += (parseFloat(el.value) || 0);
             });
 
-            // Helper function to return both average damage and the explicit critical value
             function calcHit(armor) {
                 let norm = avgBaseDmg * Math.pow(2, ((strikeLevel - armor) / 40));
                 let crit = 0;
@@ -429,7 +427,6 @@
             let hitWithoutSunder = calcHit(effectiveArmor);
             let hitWithSunder = calcHit(sunderedArmor);
             
-            // Blend sunder probabilities for the overall average and the critical hit specific value
             let finalAvgHit = (sunderChance * hitWithSunder.avgVal) + ((1 - sunderChance) * hitWithoutSunder.avgVal);
             let finalAvgCrit = (sunderChance * hitWithSunder.critVal) + ((1 - sunderChance) * hitWithoutSunder.critVal);
             
@@ -446,7 +443,6 @@
                 doubleStrikeChance = 2 + attrLevel + bonusDS;
                 doubleStrikeChance = Math.min(100, Math.max(0, doubleStrikeChance));
                 
-                // Note: Double strike multiplies the average DPS, but a "critical hit" popup in-game represents a single strike, so we don't multiply the crit display by this.
                 finalAvgHit = finalAvgHit * (1 + (doubleStrikeChance / 100));
             }
 
