@@ -151,8 +151,12 @@
             <label>Weapon Mastery Attribute Level</label>
             <span class="desc">For Caster weapons, this does not affect base damage or crit chance.</span>
             <input type="number" id="attrLevel" value="12">
+            
+            <label>Critical Strikes Attribute Rank</label>
+            <span class="desc">Adds 1% independent crit chance per rank (typically for Assassins).</span>
+            <input type="number" id="critStrikesLevel" value="0">
 
-            <label style="margin-top: 30px;">Target Level</label>
+            <label style="margin-top: 15px;">Target Level</label>
             <input type="number" id="targetLevel" value="20">
 
             <label>Target Armor Rating (AL)</label>
@@ -179,7 +183,7 @@
 
             <div class="group" style="margin: 0;">
                 <div class="panel-header">Crit Chance Bonus (%)</div>
-                <span class="desc">Independent probability.</span>
+                <span class="desc">Independent probability from skills.</span>
                 <div id="critContainer"></div>
                 <button class="add-btn" onclick="addStack('critContainer', 'Crit %')">+ Add Crit Bonus</button>
             </div>
@@ -252,8 +256,8 @@
             <span style="color: #4CAF50;">AVERAGE DPS (Damage Per Second):</span>
             <span class="result-val primary" id="resDPS"></span>
         </div>
-		
-		<span class="desc" style="text-align: center; margin-top: 15px; font-style: italic;">
+        
+        <span class="desc" style="text-align: center; margin-top: 15px; font-style: italic;">
             *Note: The game engine calculates damage using decimals, but rounds to the nearest integer when subtracting from a target's health.
         </span>
     </div>
@@ -310,6 +314,7 @@
             document.getElementById('ias').value = '0';
             document.getElementById('charLevel').value = '20';
             document.getElementById('attrLevel').value = '12';
+            document.getElementById('critStrikesLevel').value = '0';
             document.getElementById('targetLevel').value = '20';
             document.getElementById('targetArmor').value = '60';
             document.getElementById('sunderChance').value = '0';
@@ -343,6 +348,7 @@
             
             const charLevel = parseInt(document.getElementById('charLevel').value) || 0;
             const attrLevel = parseInt(document.getElementById('attrLevel').value) || 0;
+            const critStrikesLevel = parseInt(document.getElementById('critStrikesLevel').value) || 0;
             const targetLevel = parseInt(document.getElementById('targetLevel').value) || 0;
             const targetArmor = parseInt(document.getElementById('targetArmor').value) || 0;
             
@@ -378,11 +384,15 @@
                 baseCritChanceDec = Math.max(0, A + B);
             }
 
+            const critStrikesDec = critStrikesLevel / 100;
+
             let skillCritDec = 0;
             document.querySelectorAll('#critContainer .stack-val').forEach(el => {
                 skillCritDec += (parseFloat(el.value) || 0) / 100;
             });
-            let totalCritChanceDec = Math.min(1, Math.max(0, 1 - ((1 - baseCritChanceDec) * (1 - skillCritDec))));
+            
+            // Apply independent probability logic including the Critical Strikes attribute
+            let totalCritChanceDec = Math.min(1, Math.max(0, 1 - ((1 - baseCritChanceDec) * (1 - critStrikesDec) * (1 - skillCritDec))));
 
             let armorMultiplier = 1;
             if (type === 'hornbow') armorMultiplier *= (1 - 0.10); 
