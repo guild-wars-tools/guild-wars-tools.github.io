@@ -21,7 +21,46 @@
             margin: 0;
             display: flex;
             height: 100vh;
+            overflow: hidden; /* Prevent body scroll when menu is open */
         }
+        
+        /* Mobile Header - Hidden on Desktop */
+        .mobile-header {
+            display: none;
+            background-color: var(--panel-bg);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .mobile-header h1 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--accent);
+        }
+        .filter-toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Overlay for mobile menu */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
         .sidebar {
             width: 320px;
             background-color: var(--panel-bg);
@@ -30,6 +69,8 @@
             overflow-y: auto;
             box-sizing: border-box;
             flex-shrink: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
         .sidebar-header {
             display: flex;
@@ -45,6 +86,11 @@
             color: var(--text-main);
         }
         
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
         .reset-btn {
             background: transparent;
             color: var(--accent);
@@ -57,6 +103,12 @@
         }
         .reset-btn:hover { background: var(--border-color); color: var(--accent-hover); }
         
+        .close-sidebar-btn {
+            display: none; /* Hidden on desktop */
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+
         .group-reset-btn {
             background: transparent;
             color: var(--text-muted);
@@ -127,6 +179,13 @@
             background-color: #e9e9e9;
         }
         
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            height: 100%;
+        }
+
         .main-content { 
             flex-grow: 1; 
             padding: 20px; 
@@ -159,13 +218,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
-            grid-column: 1 / -1; /* Ensure header spans full width of grid */
+            grid-column: 1 / -1; 
         }
         
-        /* Grid container for streamlined results */
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 10px;
         }
 
@@ -221,15 +279,56 @@
             color: var(--text-muted); 
             text-align: left; 
         }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 85%;
+                max-width: 320px;
+                transform: translateX(-100%);
+                box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay.open {
+                display: block;
+                opacity: 1;
+            }
+            .close-sidebar-btn {
+                display: block;
+            }
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .controls select {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <!-- ALL SIDEBAR CONTENT REMAINS EXACTLY THE SAME AS YOUR ORIGINAL CODE -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>PvX Filters</h2>
-            <button class="reset-btn" id="globalReset">Reset All</button>
+            <div class="header-actions">
+                <button class="reset-btn" id="globalReset">Reset All</button>
+                <button class="reset-btn close-sidebar-btn" id="closeSidebarBtn">✕</button>
+            </div>
         </div>
 
         <input type="text" id="textSearch" placeholder="Search build names..." style="width: 100%; margin-bottom: 20px; padding: 8px; box-sizing: border-box; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color);">
@@ -411,32 +510,55 @@
         </details>
     </div>
 
-    <div class="main-content">
-        <div class="controls">
-            <div>
-                <label style="font-size: 14px; font-weight: bold;">Group By: </label>
-                <select id="groupBy">
-                    <option value="primary">Primary Profession</option>
-                    <option value="tier">Tier</option>
-                    <option value="mode">Game Mode</option>
-                    <option value="structure">Structure</option>
-                    <option value="usage">Usage</option>
-                    <option value="none">None (List All)</option>
-                </select>
-            </div>
-            <div>
-                <label style="font-size: 14px; font-weight: bold;">Sort: </label>
-                <select id="sortBy">
-                    <option value="alpha">Alphabetical (A-Z)</option>
-                    <option value="tier">Tier Rank</option>
-                </select>
-            </div>
+    <div class="main-wrapper">
+        <div class="mobile-header">
+            <h1>PvX Search</h1>
+            <button class="filter-toggle-btn" id="mobileFilterBtn">☰ Filters</button>
         </div>
-        <!-- Note: We are now applying the grid logic inside the JS so groupings wrap properly -->
-        <div id="resultsContainer"></div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div>
+                    <label style="font-size: 14px; font-weight: bold;">Group By: </label>
+                    <select id="groupBy">
+                        <option value="primary">Primary Profession</option>
+                        <option value="tier">Tier</option>
+                        <option value="mode">Game Mode</option>
+                        <option value="structure">Structure</option>
+                        <option value="usage">Usage</option>
+                        <option value="none">None (List All)</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 14px; font-weight: bold;">Sort: </label>
+                    <select id="sortBy">
+                        <option value="alpha">Alphabetical (A-Z)</option>
+                        <option value="tier">Tier Rank</option>
+                    </select>
+                </div>
+            </div>
+            <div id="resultsContainer"></div>
+        </div>
     </div>
 
     <script>
+        // --- Mobile Menu Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const filterBtn = document.getElementById('mobileFilterBtn');
+        const closeBtn = document.getElementById('closeSidebarBtn');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        filterBtn.addEventListener('click', toggleSidebar);
+        closeBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+
+        // --- Search Logic ---
         const locationDrops = {
             "The Underworld": ["Ectoplasm"],
             "Fissure of Woe": ["Obsidian Shard"],
@@ -1194,7 +1316,6 @@
             build.allDrops = [...new Set([...inheritedDrops, ...build.drops])];
         });
 
-        // Event Listeners for "[Any]" checkboxes
         document.querySelectorAll('.any-toggle').forEach(toggle => {
             toggle.addEventListener('change', (e) => {
                 const group = e.target.closest('.filter-group');
@@ -1208,7 +1329,6 @@
             });
         });
 
-        // Event Listeners for individual "Reset" buttons inside menus
         document.querySelectorAll('.group-reset-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault(); 
@@ -1226,7 +1346,6 @@
             });
         });
 
-        // Listener for specific checkboxes to dynamically toggle [Any] state
         document.querySelectorAll('.specifics input[type="checkbox"]').forEach(cb => {
             cb.addEventListener('change', (e) => {
                 const group = e.target.closest('.filter-group');
@@ -1248,7 +1367,6 @@
             });
         });
 
-        // Listener for Team Size text input to dynamically toggle [Any] state
         document.getElementById('teamSizeInput').addEventListener('input', (e) => {
             const group = e.target.closest('.filter-group');
             const anyToggle = group.querySelector('.any-toggle');
@@ -1409,7 +1527,6 @@
                 sortedGroupKeys.sort((a, b) => a.localeCompare(b));
             }
 
-            // Create Grid per group to keep headers isolated from columns
             for (const groupName of sortedGroupKeys) {
                 const builds = grouped[groupName];
                 if (builds.length === 0) continue;
@@ -1439,7 +1556,6 @@
 
                     let sizeStr = (build.structure === "Team" || build.structure === "Solo") ? ` | Size: ${build.team_size}` : "";
                     
-                    // Generate proper Fandom URL from original title, but strip "Build:" for visual display
                     let buildUrl = `https://gwpvx.fandom.com/wiki/${encodeURIComponent(build.title.replace(/ /g, '_'))}`;
                     let visualTitle = build.title.startsWith("Build:") ? build.title.substring(6) : build.title;
                     
