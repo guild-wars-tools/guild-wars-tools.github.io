@@ -29,6 +29,7 @@
             padding: 20px;
             overflow-y: auto;
             box-sizing: border-box;
+            flex-shrink: 0;
         }
         .sidebar-header {
             display: flex;
@@ -121,13 +122,17 @@
         .disabled-label {
             opacity: 0.3;
             filter: grayscale(100%);
-            /* pointer-events removed to allow clicking while greyed out */
         }
         .disabled-label input[type="text"] {
             background-color: #e9e9e9;
         }
         
-        .main-content { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .main-content { 
+            flex-grow: 1; 
+            padding: 20px; 
+            overflow-y: auto; 
+            background-color: var(--bg-color);
+        }
         .controls {
             display: flex;
             gap: 20px;
@@ -143,9 +148,10 @@
             border: 1px solid var(--border-color);
             padding: 5px;
             border-radius: 3px;
+            font-size: 13px;
         }
         .group-header {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             margin: 20px 0 10px 0;
@@ -153,28 +159,56 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
+            grid-column: 1 / -1; /* Ensure header spans full width of grid */
         }
+        
+        /* Grid container for streamlined results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 10px;
+        }
+
         .build-item {
             background-color: var(--bg-color);
-            padding: 10px 15px;
-            margin-bottom: 8px;
+            padding: 8px 12px;
             border-radius: 4px;
             border: 1px solid var(--border-color);
             display: flex;
-            align-items: center;
-            gap: 15px;
+            flex-direction: column;
+            gap: 6px;
         }
-        .build-title { font-weight: bold; flex-grow: 1; color: var(--accent); }
+        .build-item-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .build-title { 
+            font-weight: bold; 
+            flex-grow: 1; 
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .build-title a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .build-title a:hover {
+            text-decoration: underline;
+        }
         
         .tag {
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 3px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             text-transform: uppercase;
             color: #000;
-            min-width: 80px;
+            min-width: 65px;
             text-align: center;
+            flex-shrink: 0;
         }
         .tag-recommended { background-color: #ce93d8; } 
         .tag-great { background-color: #4CAF50; color: white; }
@@ -182,12 +216,17 @@
         .tag-creative { background-color: #FF9800; color: white; }
         .tag-testing { background-color: #03A9F4; color: white; }
         .tag-trial { background-color: #9E9E9E; color: white; }
-        .meta-tags { font-size: 12px; color: var(--text-muted); text-align: right; }
+        .meta-tags { 
+            font-size: 11px; 
+            color: var(--text-muted); 
+            text-align: left; 
+        }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
+        <!-- ALL SIDEBAR CONTENT REMAINS EXACTLY THE SAME AS YOUR ORIGINAL CODE -->
         <div class="sidebar-header">
             <h2>PvX Filters</h2>
             <button class="reset-btn" id="globalReset">Reset All</button>
@@ -338,18 +377,18 @@
                 </div>
                 <div class="specifics disabled-label">
                     <label class="checkbox-label"><input type="checkbox" value="Guild versus Guild"> GvG</label>
-					<label class="checkbox-label"><input type="checkbox" value="Heroes' Ascent"> Heroes' Ascent (HA)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Random Arenas"> Random Arenas (RA)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Jade Quarry"> Jade Quarry (JQ)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Fort Aspenwood"> Fort Aspenwood (FA)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Alliance Battles"> Alliance Battles (AB)</label>
-					<label class="checkbox-label"><input type="checkbox" value="The Underworld"> The Underworld (UW)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Fissure of Woe"> Fissure of Woe (FoW)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Domain of Anguish"> Domain of Anguish (DoA)</label>
-					<label class="checkbox-label"><input type="checkbox" value="Urgoz's Warren"> Urgoz's Warren</label>
-					<label class="checkbox-label"><input type="checkbox" value="The Deep"> The Deep</label>
-					<label class="checkbox-label"><input type="checkbox" value="Shards of Orr"> Shards of Orr</label>
-					<label class="checkbox-label"><input type="checkbox" value="Lornar's Pass"> Lornar's Pass (Vaettir)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Heroes' Ascent"> Heroes' Ascent (HA)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Random Arenas"> Random Arenas (RA)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Jade Quarry"> Jade Quarry (JQ)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Fort Aspenwood"> Fort Aspenwood (FA)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Alliance Battles"> Alliance Battles (AB)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="The Underworld"> The Underworld (UW)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Fissure of Woe"> Fissure of Woe (FoW)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Domain of Anguish"> Domain of Anguish (DoA)</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Urgoz's Warren"> Urgoz's Warren</label>
+                    <label class="checkbox-label"><input type="checkbox" value="The Deep"> The Deep</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Shards of Orr"> Shards of Orr</label>
+                    <label class="checkbox-label"><input type="checkbox" value="Lornar's Pass"> Lornar's Pass (Vaettir)</label>
                 </div>
             </div>
         </details>
@@ -375,7 +414,7 @@
     <div class="main-content">
         <div class="controls">
             <div>
-                <label>Group By: </label>
+                <label style="font-size: 14px; font-weight: bold;">Group By: </label>
                 <select id="groupBy">
                     <option value="primary">Primary Profession</option>
                     <option value="tier">Tier</option>
@@ -386,13 +425,14 @@
                 </select>
             </div>
             <div>
-                <label>Sort: </label>
+                <label style="font-size: 14px; font-weight: bold;">Sort: </label>
                 <select id="sortBy">
                     <option value="alpha">Alphabetical (A-Z)</option>
                     <option value="tier">Tier Rank</option>
                 </select>
             </div>
         </div>
+        <!-- Note: We are now applying the grid logic inside the JS so groupings wrap properly -->
         <div id="resultsContainer"></div>
     </div>
 
@@ -1369,6 +1409,7 @@
                 sortedGroupKeys.sort((a, b) => a.localeCompare(b));
             }
 
+            // Create Grid per group to keep headers isolated from columns
             for (const groupName of sortedGroupKeys) {
                 const builds = grouped[groupName];
                 if (builds.length === 0) continue;
@@ -1379,6 +1420,10 @@
                     header.innerText = groupName;
                     container.appendChild(header);
                 }
+
+                const gridWrapper = document.createElement('div');
+                gridWrapper.className = 'results-grid';
+                container.appendChild(gridWrapper);
 
                 builds.forEach(build => {
                     const item = document.createElement('div');
@@ -1394,17 +1439,20 @@
 
                     let sizeStr = (build.structure === "Team" || build.structure === "Solo") ? ` | Size: ${build.team_size}` : "";
                     
-                    // Generate proper Fandom URL by replacing spaces with underscores and encoding
+                    // Generate proper Fandom URL from original title, but strip "Build:" for visual display
                     let buildUrl = `https://gwpvx.fandom.com/wiki/${encodeURIComponent(build.title.replace(/ /g, '_'))}`;
+                    let visualTitle = build.title.startsWith("Build:") ? build.title.substring(6) : build.title;
                     
                     item.innerHTML = `
-                        <div class="tag ${tierClass}">${build.tier}</div>
-                        <div class="build-title"><a href="${buildUrl}" target="_blank" style="color: inherit; text-decoration: none;">${build.title}</a></div>
+                        <div class="build-item-header">
+                            <div class="tag ${tierClass}">${build.tier}</div>
+                            <div class="build-title"><a href="${buildUrl}" target="_blank" title="${visualTitle}">${visualTitle}</a></div>
+                        </div>
                         <div class="meta-tags">
                             ${build.mode} | ${profString}${build.target} | ${build.usage} ${sizeStr}
                         </div>
                     `;
-                    container.appendChild(item);
+                    gridWrapper.appendChild(item);
                 });
             }
 
